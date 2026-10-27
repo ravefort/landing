@@ -52,7 +52,8 @@ const steps = [
   { title: "See who to call back", body: "Your list of patients due to come back, ready to work." },
 ];
 const faq = [
-  { q: "Who is Ravefort for?", a: "Clinics that book appointments and want patients to come back. We’re starting with dental clinics." },
+  { q: "Who is Ravefort for?", a: "Clinics in Nigeria and across West Africa that book appointments and want patients to come back. We’re starting with dental clinics." },
+  { q: "Does Ravefort work for clinics in Nigeria and the rest of West Africa?", a: "Yes. Ravefort runs in your browser, so there’s nothing to install. Your team reaches patients on WhatsApp, and estimated values are shown in naira." },
   { q: "What happens to the records we already have?", a: "You upload them as CSV files and check every row before anything is saved. Possible duplicates are shown to you; nothing is merged automatically." },
   { q: "Does Ravefort send messages for us?", a: "No. Your team sends each WhatsApp message from their own WhatsApp, starting from a message you’ve set up. Ravefort records that it was opened, never that it was delivered." },
   { q: "Who can see our patients’ information?", a: "Only people you invite, and only what their role allows. Your clinic’s records are kept apart from every other clinic’s." },
@@ -78,19 +79,89 @@ const favicon =
   encodeURIComponent(
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#e5e5e5"/><text x="12" y="17" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#171717">R</text></svg>',
   );
+const SITE = "https://ravefort.com";
+const title = "Ravefort · Dental clinic software for Nigeria and West Africa";
+// Search snippets cut off around 160 characters.
 const description =
-  "Ravefort keeps your clinic's day, your patient records and your follow-up calls in one place, so your team knows who to see today and who to call back.";
+  "Front desk and patient recall software for dental clinics in Nigeria and West Africa. Book appointments, keep records and bring patients back on WhatsApp.";
+const lead =
+  "Ravefort is front desk and patient recall software for clinics in Nigeria and West Africa. It keeps your clinic's day, your patient records and your follow-up calls in one place, so your team knows who to see today and who to call back.";
+
+// What search engines and AI assistants read about the business and the product.
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE}/#organization`,
+      name: "Ravefort",
+      url: SITE,
+      email: CONTACT_EMAIL,
+      description,
+      areaServed: [{ "@type": "Country", name: "Nigeria" }, { "@type": "Place", name: "West Africa" }],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE}/#website`,
+      url: SITE,
+      name: "Ravefort",
+      inLanguage: "en-NG",
+      publisher: { "@id": `${SITE}/#organization` },
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Ravefort",
+      url: SITE,
+      description: lead,
+      applicationCategory: "BusinessApplication",
+      applicationSubCategory: "Dental practice management",
+      operatingSystem: "Web browser",
+      areaServed: [{ "@type": "Country", name: "Nigeria" }, { "@type": "Place", name: "West Africa" }],
+      audience: { "@type": "BusinessAudience", audienceType: "Dental clinics and other clinics that book appointments" },
+      featureList: [
+        "Today's appointment list with booking, check-in, moving and cancelling",
+        "WhatsApp messages to patients from the front desk",
+        "Patient record import from CSV files, with every row checked and no automatic merging",
+        "Recall list of patients with overdue check-ups or unbooked treatment",
+        "Estimated value of returning patients, shown in naira and labelled as an estimate",
+        "Role-based team access, with each clinic's records kept apart",
+      ],
+      publisher: { "@id": `${SITE}/#organization` },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+};
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-NG">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ravefort · Run your front desk. Bring your patients back.</title>
+    <title>{title}</title>
     <meta name="description" content={description} />
-    <meta property="og:title" content="Ravefort" />
+    <link rel="canonical" href={`${SITE}/`} />
+    <link rel="alternate" hreflang="en-NG" href={`${SITE}/`} />
+    <link rel="alternate" hreflang="x-default" href={`${SITE}/`} />
+    <meta name="geo.region" content="NG" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ravefort" />
+    <meta property="og:locale" content="en_NG" />
+    <meta property="og:url" content={`${SITE}/`} />
+    <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${SITE}/og.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ravefort: run your front desk, bring your patients back." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${SITE}/og.png`} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <meta name="theme-color" content="#0a0a0a" />
     <link rel="icon" href={favicon} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -117,7 +188,7 @@ const description =
           <div class="stack-16 measure">
             <span class="eyebrow">New · Piloting with our first dental clinic</span>
             <h1 class="hero-h">Run your front desk.<br />Bring your patients back.</h1>
-            <p class="lead">{description}</p>
+            <p class="lead">{lead}</p>
             <div class="row wrap-row gap-3 pt-2">
               <a href={DEMO_URL} class="btn btn-primary btn-lg">
                 Book a demo
