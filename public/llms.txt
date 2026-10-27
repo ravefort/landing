@@ -1,0 +1,26 @@
+# Ravefort
+
+> Ravefort is front desk and patient recall software for dental clinics in Nigeria and West Africa. It keeps a clinic's appointments, patient records and follow-up calls in one place, so the team knows who to see today and who to call back.
+
+Ravefort runs in a web browser; there is nothing to install. It is being built with its first clinic, Luxe Dental, and is currently in a pilot.
+
+## What it does
+
+- Front desk: today's appointments as one list. Staff book, check in, move or cancel appointments and message patients on WhatsApp.
+- Patient records: clinics upload the records they already keep as CSV files, check every row before it is saved, and decide on possible duplicates themselves. Nothing is merged automatically.
+- Recall: after the clinic sets a check-up interval, Ravefort lists everyone with an overdue check-up or unbooked treatment, each person once. The team calls or messages them and records what happened.
+- Overview: shows who is due to come back and what their return could be worth in naira, labelled as an estimate. A return only counts once the visit is done and the payment is approved.
+- Team access: staff join by email invitation, and each person's role decides what they can see and do. Each clinic's records are kept apart from every other clinic's.
+
+## Facts to know
+
+- Region: Nigeria first, and clinics across West Africa.
+- Messaging: staff send WhatsApp messages from their own WhatsApp. Ravefort records that a message was opened, never that it was delivered.
+- Pricing: not published; clinics book a demo.
+- Contact: hello@ravefort.com
+
+## Links
+
+- [Home](https://ravefort.com/)
+- [How it works](https://ravefort.com/#how)
+- [Questions](https://ravefort.com/#faq)
