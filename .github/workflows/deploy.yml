@@ -25,7 +25,7 @@ jobs:
 
   # Only the deploy job can mint a Pages token; the build runs npm code.
   deploy:
-    if: github.event_name != 'pull_request'
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     permissions:
