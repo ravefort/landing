@@ -1,0 +1,574 @@
+---
+// Ported from "L1 A · Landing page, drawn product mocks" on the Ravefort MVP design canvas.
+// ponytail: links still to confirm before launch: the demo booking link, the contact email,
+// the app's sign-in URL, and Privacy/Terms pages.
+const DEMO_URL = "#demo";
+const CONTACT_EMAIL = "hello@ravefort.com";
+// Empty hides the Sign in links until the app has a public address.
+const SIGN_IN_URL = "";
+
+const badge = (c: string) => `background: var(--${c}-soft); color: var(--${c});`;
+const muted = "background: var(--accent); color: var(--muted-foreground);";
+
+const dayRows = [
+  { time: "09:00", name: "Chidi Okafor", reason: "Check-up", status: "Arrived", badge: badge("status-arrived") },
+  { time: "09:30", name: "Ngozi Eze", reason: "Scale and polish", status: "In care", badge: badge("status-in-care") },
+  { time: "10:15", name: "Aisha Bello", reason: "Check-up", status: "Late", badge: badge("status-late") },
+  { time: "11:00", name: "Tunde Bakare", reason: "Filling", status: "Scheduled", badge: badge("status-scheduled") },
+  { time: "11:30", name: "Emeka Obi", reason: "Consultation", status: "Scheduled", badge: badge("status-scheduled") },
+];
+const importRows = [
+  { name: "Funmi Adeyemi", phone: "0803 412 7781", status: "Ready", note: "", badge: badge("success") },
+  { name: "Kelechi Nwosu", phone: "0805 119", status: "Needs a fix", note: "Phone number looks too short", badge: badge("warning") },
+  { name: "Ngozi Eze", phone: "0812 660 2394", status: "Possible match", note: "Same name and date of birth as a patient you have", badge: badge("info") },
+];
+const recallRows = [
+  { name: "Bola Johnson", reason: "Check-up overdue by 4 months", last: "Not contacted yet" },
+  { name: "Ifeoma Uche", reason: "Crown recommended, not booked", last: "No answer · 2 days ago" },
+  { name: "Samuel Ade", reason: "Check-up overdue by 7 months", last: "Call back Friday" },
+  { name: "Zainab Musa", reason: "Check-up overdue by 2 months", last: "Not contacted yet" },
+];
+const teamRows = [
+  { email: "amaka@yourclinic.com", role: "Owner", status: "Active", badge: badge("success") },
+  { email: "tola@yourclinic.com", role: "Front Desk", status: "Active", badge: badge("success") },
+  { email: "bisi@yourclinic.com", role: "Manager", status: "Invitation sent", badge: muted },
+  { email: "kemi@yourclinic.com", role: "Recall", status: "Invitation sent", badge: muted },
+];
+const pillars = [
+  { title: "One record for each patient", body: "Bookings, visits and payments land on the same person, from their first enquiry onward." },
+  { title: "Follow-up with a trail", body: "Every call and WhatsApp message is logged with what happened, so nobody is called twice and nobody is missed." },
+  { title: "Numbers you can trust", body: "Estimates are labelled as estimates. Money only counts once a payment is approved." },
+];
+const stats = [
+  { label: "Active patients", value: "2,712", note: "From your uploaded records" },
+  { label: "Due to come back", value: "618", note: "None contacted yet" },
+  { label: "Overdue check-ups", value: "About ₦3,090,000", note: "An estimate if they return, not money yet" },
+];
+const steps = [
+  { title: "Create your clinic", body: "Your work email, your name and your clinic’s name." },
+  { title: "Upload your patient records", body: "CSV files from the system you use today. You check each row." },
+  { title: "Invite your team", body: "Your manager, front desk and recall team, each with their own role." },
+  { title: "Set your recall interval", body: "How often patients should come back for a check-up." },
+  { title: "See who to call back", body: "Your list of patients due to come back, ready to work." },
+];
+const faq = [
+  { q: "Who is Ravefort for?", a: "Clinics that book appointments and want patients to come back. We’re starting with dental clinics." },
+  { q: "What happens to the records we already have?", a: "You upload them as CSV files and check every row before anything is saved. Possible duplicates are shown to you; nothing is merged automatically." },
+  { q: "Does Ravefort send messages for us?", a: "No. Your team sends each WhatsApp message from their own WhatsApp, starting from a message you’ve set up. Ravefort records that it was opened, never that it was delivered." },
+  { q: "Who can see our patients’ information?", a: "Only people you invite, and only what their role allows. Your clinic’s records are kept apart from every other clinic’s." },
+  { q: "How do you count money we get back?", a: "Before a patient returns, amounts are estimates and labelled that way. A return counts once the visit is done and the payment is approved by your front desk." },
+  { q: "How much does it cost?", a: "Book a demo and we’ll talk it through." },
+];
+const navLinks = [
+  ["#front-desk", "Front desk"],
+  ["#patients", "Patients"],
+  ["#recall", "Recall"],
+  ["#how", "How it works"],
+  ["#faq", "Questions"],
+];
+
+const whatsappPath =
+  "m4.843 10.944-.194 2.335a.204.204 0 0 0 .339.17l2.21-1.964.589.013L8 11.5c1.695 0 3.087-.44 4.02-1.177.89-.702 1.48-1.76 1.48-3.323s-.59-2.62-1.48-3.323C11.087 2.94 9.695 2.5 8 2.5s-3.087.44-4.02 1.177C3.09 4.38 2.5 5.437 2.5 7c0 1.648.656 2.742 1.648 3.448zm1.141 3.625 1.77-1.572Q7.875 13 8 13c3.866 0 7-2 7-6s-3.134-6-7-6-7 2-7 6c0 2.117.878 3.674 2.277 4.67l-.123 1.484a1.704 1.704 0 0 0 2.83 1.415";
+const phonePath =
+  "M14.125 9.833a3.7 3.7 0 0 0-1.592-1.22l-.032-.012a2.88 2.88 0 0 0-2.795.37l-.36.269a.5.5 0 0 1-.653-.047L6.807 7.307a.5.5 0 0 1-.047-.654l.27-.36A2.88 2.88 0 0 0 7.4 3.5l-.013-.032a3.7 3.7 0 0 0-1.22-1.592l-.19-.143a2.33 2.33 0 0 0-2.135-.346l-.19.063A3.48 3.48 0 0 0 1.450 3.653a4.9 4.9 0 0 0-.105 2.725 9.760 9.760 0 0 0 2.567 4.533l1.178 1.178a9.760 9.760 0 0 0 4.533 2.566c.9.226 1.845.19 2.725-.104a3.480 3.480 0 0 0 2.204-2.203l.063-.19a2.330 2.330 0 0 0-.347-2.135zM5.159 3.219l-.19-.143a.65.65 0 0 0-.596-.096l-.19.063c-.538.18-.96.602-1.14 1.140a3.200 3.200 0 0 0-.069 1.788A8.100 8.100 0 0 0 5.100 9.723l1.178 1.178a8.100 8.100 0 0 0 3.752 2.125c.59.147 1.210.123 1.787-.069.539-.18.961-.602 1.141-1.140l.063-.19a.65.65 0 0 0-.096-.596l-.143-.19a2.030 2.030 0 0 0-.872-.668l-.032-.013a1.200 1.200 0 0 0-1.163.154l-.36.27a2.180 2.180 0 0 1-2.849-.203L5.620 8.495a2.180 2.180 0 0 1-.203-2.850l.27-.36c.25-.334.309-.774.154-1.162l-.013-.032a2.030 2.030 0 0 0-.668-.872";
+const arrowPath =
+  "M1.25 8A.75.75 0 0 1 2 7.25h10.19L9.47 4.53a.75.75 0 0 1 1.06-1.060l4 4a.75.75 0 0 1 0 1.060l-4 4a.75.75 0 1 1-1.06-1.060l2.72-2.720H2A.75.75 0 0 1 1.25 8";
+const favicon =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#e5e5e5"/><text x="12" y="17" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#171717">R</text></svg>',
+  );
+const description =
+  "Ravefort keeps your clinic's day, your patient records and your follow-up calls in one place, so your team knows who to see today and who to call back.";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ravefort · Run your front desk. Bring your patients back.</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content="Ravefort" />
+    <meta property="og:description" content={description} />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" href={favicon} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="wrap nav-row">
+        <a href="#top" class="brand"><span class="logo">R</span><span>Ravefort</span></a>
+        <nav aria-label="Main" class="nav-links">
+          {navLinks.map(([href, label]) => <a href={href}>{label}</a>)}
+        </nav>
+        <div class="row gap-2">
+          {SIGN_IN_URL && <a href={SIGN_IN_URL} class="btn btn-ghost">Sign in</a>}
+          <a href={DEMO_URL} class="btn btn-primary">Book a demo</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="wrap stack-48">
+          <div class="stack-16 measure">
+            <span class="eyebrow">New · Piloting with our first dental clinic</span>
+            <h1 class="hero-h">Run your front desk.<br />Bring your patients back.</h1>
+            <p class="lead">{description}</p>
+            <div class="row wrap-row gap-3 pt-2">
+              <a href={DEMO_URL} class="btn btn-primary btn-lg">
+                Book a demo
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d={arrowPath} clip-rule="evenodd"></path></svg>
+              </a>
+              <a href="#how" class="btn btn-ghost btn-lg secondary">See how it works</a>
+            </div>
+          </div>
+
+          <div class="frame shadow" aria-hidden="true">
+            <div class="app">
+              <aside class="hide-sm sidebar">
+                <p class="sidebar-title">Your clinic</p>
+                {["Overview", "Today", "Patients", "Recall", "Team & access"].map((item) => (
+                  <span class:list={["side-item", { active: item === "Today" }]}>{item}</span>
+                ))}
+              </aside>
+              <div class="app-main">
+                <div class="row between gap-4">
+                  <div>
+                    <p class="h-lg">Today</p>
+                    <p class="sm muted">Tuesday · 14 appointments · 3 arrived</p>
+                  </div>
+                  <span class="btn btn-primary">Book appointment</span>
+                </div>
+                <div class="scroll">
+                  <div class="table" style="min-width: 560px">
+                    {dayRows.map((r) => (
+                      <div class="tr" style="grid-template-columns: 72px minmax(0,1.4fr) minmax(0,1fr) 120px">
+                        <span class="mono muted">{r.time}</span>
+                        <span class="medium">{r.name}</span>
+                        <span class="muted">{r.reason}</span>
+                        <span class="badge" style={r.badge}>{r.status}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap stack-64">
+          <p class="statement">
+            Most patients don't leave a clinic. They forget to come back.{" "}
+            <span class="muted">Ravefort shows your team who is due, helps them reach out, and keeps a record of every call and every return.</span>
+          </p>
+          <div class="grid-3">
+            {pillars.map((p) => (
+              <div class="ruled stack-8">
+                <h2 class="h-base">{p.title}</h2>
+                <p class="muted">{p.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="front-desk" class="section bt">
+        <div class="wrap stack-48">
+          <div class="split">
+            <h2 class="h-title">Run the day from one list</h2>
+            <div class="stack-16">
+              <p class="muted">See today's appointments as they happen. Book, check in, move or cancel in a few clicks, and message a patient on WhatsApp without leaving the list.</p>
+              <p class="sm muted">Front desk · Today · Booking · Check-in · WhatsApp</p>
+            </div>
+          </div>
+          <div class="frame pad" aria-hidden="true">
+            <div class="split gap-24">
+              <div class="stack-12">
+                <p class="sm semibold">Move appointment</p>
+                <div class="card stack-12 sm">
+                  <div class="row between gap-4"><span class="muted">Patient</span><span>Tunde Bakare</span></div>
+                  <div class="row between gap-4"><span class="muted">Was</span><span class="muted strike">Tue 10:15</span></div>
+                  <div class="row between gap-4"><span class="muted">Now</span><span class="medium">Thu 14:00</span></div>
+                </div>
+              </div>
+              <div class="stack-12">
+                <p class="sm semibold row gap-2">
+                  <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d={whatsappPath} clip-rule="evenodd"></path></svg>
+                  WhatsApp message
+                </p>
+                <div class="card stack-12">
+                  <p class="sm">Hi Tunde, your appointment has moved to Thursday at 2:00pm. Reply here if that time doesn't work.</p>
+                  <div class="row end"><span class="btn btn-primary">Open WhatsApp</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="patients" class="section bt">
+        <div class="wrap stack-48">
+          <div class="split">
+            <h2 class="h-title">Bring your patient records with you</h2>
+            <div class="stack-16">
+              <p class="muted">Upload the records you already keep as CSV files. Check every row before anything is saved, fix what's wrong, and decide on possible duplicates yourself. Nothing is merged without you.</p>
+              <p class="sm muted">Patients · Upload · Review rows · Check for matches</p>
+            </div>
+          </div>
+          <div class="frame pad stack-16" aria-hidden="true">
+            <div class="row wrap-row gap-2 sm">
+              <span class="semibold" style="margin-right: 8px">Check your patient records</span>
+              <span class="badge" style={badge("success")}>2,698 ready</span>
+              <span class="badge" style={badge("warning")}>9 need a fix</span>
+              <span class="badge" style={badge("info")}>5 possible matches</span>
+            </div>
+            <div class="scroll">
+              <div class="table" style="min-width: 560px">
+                {importRows.map((r) => (
+                  <div class="tr" style="grid-template-columns: minmax(0,1fr) 140px 130px minmax(0,1.4fr)">
+                    <span class="medium">{r.name}</span>
+                    <span class="mono muted">{r.phone}</span>
+                    <span class="badge" style={r.badge}>{r.status}</span>
+                    <span class="muted">{r.note}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="recall" class="section bt">
+        <div class="wrap stack-48">
+          <div class="split">
+            <h2 class="h-title">Know who to call back</h2>
+            <div class="stack-16">
+              <p class="muted">Set your check-up interval once. Ravefort lists everyone with an overdue check-up or treatment they haven't booked, each person once. Your team calls or messages them and records what happened.</p>
+              <p class="sm muted">Recall · Due to come back · Call or WhatsApp · Results</p>
+            </div>
+          </div>
+          <div class="frame pad" aria-hidden="true">
+            <div class="scroll">
+              <div class="table" style="min-width: 640px">
+                {recallRows.map((r) => (
+                  <div class="tr" style="grid-template-columns: minmax(0,1fr) minmax(0,1.3fr) minmax(0,1fr) 168px">
+                    <span class="medium">{r.name}</span>
+                    <span class="muted">{r.reason}</span>
+                    <span class="muted">{r.last}</span>
+                    <span class="row end gap-2">
+                      <span class="chip">
+                        <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d={phonePath} clip-rule="evenodd"></path></svg>
+                        Call
+                      </span>
+                      <span class="chip">
+                        <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d={whatsappPath} clip-rule="evenodd"></path></svg>
+                        WhatsApp
+                      </span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="section bt">
+        <div class="wrap stack-48">
+          <div class="split">
+            <h2 class="h-title">See what follow-up is worth</h2>
+            <div class="stack-16">
+              <p class="muted">Your Overview shows who is due to come back and what their return could be worth, clearly marked as an estimate. A return only counts once the visit is done and the payment is approved.</p>
+              <p class="sm muted">Overview · Due to come back · Estimated value</p>
+            </div>
+          </div>
+          <div class="grid-3 gap-16" aria-hidden="true">
+            {stats.map((s) => (
+              <div class="frame pad stack-8">
+                <p class="sm muted">{s.label}</p>
+                <p class="h-title">{s.value}</p>
+                <p class="xs muted">{s.note}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="team" class="section bt">
+        <div class="wrap stack-48">
+          <div class="split">
+            <h2 class="h-title">The right access for each person</h2>
+            <div class="stack-16">
+              <p class="muted">Invite your team by email and give each person a role that decides what they can see and do. Each clinic's records stay apart from every other clinic's.</p>
+              <p class="sm muted">Team &amp; access · Invitations · Roles</p>
+            </div>
+          </div>
+          <div class="frame pad" aria-hidden="true">
+            <div class="scroll">
+              <div class="table" style="min-width: 520px">
+                {teamRows.map((r) => (
+                  <div class="tr" style="grid-template-columns: minmax(0,1.6fr) minmax(0,1fr) 140px">
+                    <span>{r.email}</span>
+                    <span class="muted">{r.role}</span>
+                    <span class="badge" style={r.badge}>{r.status}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="how" class="section bt">
+        <div class="wrap stack-48">
+          <div class="stack-8 measure">
+            <h2 class="h-title">Five steps to your first recall list</h2>
+            <p class="muted">After your demo, you set it up yourself in your browser. Nothing to install.</p>
+          </div>
+          <ol class="steps">
+            {steps.map((s, i) => (
+              <li class="frame step stack-8">
+                <span class="step-n">{i + 1}</span>
+                <span class="h-base">{s.title}</span>
+                <span class="sm muted">{s.body}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section class="section bt">
+        <div class="wrap">
+          <div class="stack-8 measure">
+            <h2 class="h-title">Built inside a working clinic</h2>
+            <p class="muted">Ravefort is designed with Luxe Dental, our first clinic, from their real front desk and follow-up work. Every screen is tested against how their team actually spends the day.</p>
+          </div>
+          <!-- ponytail: a quote from the Luxe Dental team goes here once they agree to share one. -->
+        </div>
+      </section>
+
+      <section id="faq" class="section bt">
+        <div class="wrap stack-48">
+          <h2 class="h-title">Questions clinics ask us</h2>
+          <dl class="faq">
+            {faq.map((f) => (
+              <div class="ruled stack-8">
+                <dt class="h-base">{f.q}</dt>
+                <dd class="muted">{f.a}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <section id="demo" class="section bt">
+        <div class="wrap stack-24 cta">
+          <h2 class="hero-h">See Ravefort with your own clinic in mind.</h2>
+          <p class="muted" style="max-width: 560px">Book a demo and we'll walk you through the front desk, the recall list and how setup works.</p>
+          <div class="row wrap-row gap-3" style="justify-content: center">
+            <a href={`mailto:${CONTACT_EMAIL}?subject=Ravefort%20demo`} class="btn btn-primary btn-lg">Book a demo</a>
+            <a href={`mailto:${CONTACT_EMAIL}`} class="btn btn-outline btn-lg">Talk to us</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bt footer">
+      <div class="wrap foot">
+        <div class="stack-8">
+          <span class="brand"><span class="logo">R</span><span>Ravefort</span></span>
+          <p class="sm muted">The front desk and follow-up system for clinics.</p>
+        </div>
+        <nav aria-label="Product" class="foot-col">
+          <span class="semibold">Product</span>
+          <a href="#front-desk">Front desk</a>
+          <a href="#patients">Patients</a>
+          <a href="#recall">Recall</a>
+          <a href="#team">Team &amp; access</a>
+        </nav>
+        <nav aria-label="Get started" class="foot-col">
+          <span class="semibold">Get started</span>
+          <a href={DEMO_URL}>Book a demo</a>
+          {SIGN_IN_URL && <a href={SIGN_IN_URL}>Sign in</a>}
+          <a href="#faq">Questions</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  /* Ravefort tokens, from the design canvas's tokens.css (dark only, as designed). */
+  :root {
+    --background: #0a0a0a;
+    --foreground: #f2f2f2;
+    --foreground-strong: #ffffff;
+    --muted-foreground: #b5b5b5;
+    --primary: #e5e5e5;
+    --primary-foreground: #171717;
+    --secondary-foreground: #d4d4d4;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.2);
+    --input: rgba(255, 255, 255, 0.15);
+    --surface: #141414;
+    --frame: #1b1b1b;
+    --accent: rgba(255, 255, 255, 0.06);
+    --ring: #a3a3a3;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --success: #00c967;
+    --success-soft: rgba(0, 201, 103, 0.15);
+    --warning: #f6b84f;
+    --warning-soft: rgba(246, 184, 79, 0.12);
+    --info: #a78bfa;
+    --info-soft: rgba(139, 92, 246, 0.15);
+    --status-scheduled: var(--info);
+    --status-scheduled-soft: var(--info-soft);
+    --status-arrived: var(--success);
+    --status-arrived-soft: var(--success-soft);
+    --status-in-care: #8fb8ff;
+    --status-in-care-soft: rgba(143, 184, 255, 0.12);
+    --status-late: var(--warning);
+    --status-late-soft: var(--warning-soft);
+    --font-sans: Inter, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+    --radius-logo: 6px;
+    --radius-card: 12px;
+    --radius-frame: 14px;
+    --radius-pill: 999px;
+    color-scheme: dark;
+  }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font: 400 16px/24px var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    container-type: inline-size;
+  }
+  p, h1, h2, dd, ol { margin: 0; }
+  a { color: var(--foreground); text-decoration: none; }
+  a:hover { color: var(--foreground-strong); }
+  a:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+
+  .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 32px; box-sizing: border-box; }
+  .section { padding: 96px 0; }
+  .hero { padding: 96px 0 0; }
+  .bt { border-top: 1px solid var(--border); }
+  .measure { max-width: 640px; }
+
+  .row { display: flex; align-items: center; }
+  .wrap-row { flex-wrap: wrap; }
+  .between { justify-content: space-between; }
+  .end { justify-content: flex-end; }
+  .pt-2 { padding-top: 8px; }
+  .gap-2 { gap: 8px; } .gap-3 { gap: 12px; } .gap-4 { gap: 16px; }
+  .stack-8, .stack-12, .stack-16, .stack-24, .stack-48, .stack-64 { display: flex; flex-direction: column; }
+  .stack-8 { gap: 8px; } .stack-12 { gap: 12px; } .stack-16 { gap: 16px; }
+  .stack-24 { gap: 24px; } .stack-48 { gap: 48px; } .stack-64 { gap: 64px; }
+
+  .split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
+  .split.gap-24 { gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .grid-3.gap-16 { gap: 16px; }
+  .steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; padding: 0; list-style: none; }
+  .faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; row-gap: 32px; margin: 0; }
+  .foot { display: grid; grid-template-columns: 2fr repeat(2, minmax(0, 1fr)); gap: 32px; }
+  .app { display: grid; grid-template-columns: 200px minmax(0, 1fr); }
+  .scroll { overflow-x: auto; }
+
+  .hero-h { font-size: 36px; line-height: 40px; font-weight: 700; letter-spacing: -0.022em; text-wrap: balance; }
+  .lead { font-size: 20px; line-height: 28px; color: var(--muted-foreground); text-wrap: pretty; }
+  .statement { max-width: 880px; font-size: 30px; line-height: 36px; font-weight: 600; letter-spacing: -0.021em; text-wrap: pretty; }
+  .h-title { font-size: 30px; line-height: 36px; font-weight: 600; letter-spacing: -0.021em; }
+  .h-lg { font-size: 20px; line-height: 28px; font-weight: 600; }
+  .h-base { font-size: 16px; line-height: 24px; font-weight: 600; }
+  .sm { font-size: 14px; line-height: 20px; }
+  .xs { font-size: 12px; line-height: 16px; }
+  .muted { color: var(--muted-foreground); }
+  .medium { font-weight: 500; }
+  .semibold { font-weight: 600; }
+  .mono { font-family: var(--font-mono); }
+  .strike { text-decoration: line-through; }
+
+  .nav { position: sticky; top: 0; z-index: 2; background: var(--background); border-bottom: 1px solid var(--border); }
+  .nav-row { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-links a { padding: 8px 12px; font-size: 14px; font-weight: 500; color: var(--muted-foreground); }
+  .nav-links a:hover { color: var(--foreground); }
+  .brand { display: flex; align-items: center; gap: 8px; font-weight: 600; letter-spacing: -0.01em; }
+  .logo {
+    width: 24px; height: 24px; border-radius: var(--radius-logo);
+    background: var(--primary); color: var(--primary-foreground);
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+
+  .btn {
+    height: 36px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px;
+    border-radius: var(--radius-pill); font-size: 14px; font-weight: 500; white-space: nowrap;
+  }
+  .btn-lg { height: 44px; padding: 0 20px; font-size: 16px; }
+  .btn-ghost { padding: 0 12px; }
+  .btn-ghost.secondary { color: var(--secondary-foreground); }
+  .btn-primary { background: var(--primary); color: var(--primary-foreground); }
+  a.btn-primary:hover { color: var(--primary-foreground); background: var(--foreground-strong); }
+  .btn-outline { border: 1px solid var(--input); }
+  .chip {
+    height: 32px; padding: 0 12px; display: flex; align-items: center; gap: 6px;
+    border-radius: var(--radius-pill); border: 1px solid var(--input); font-size: 14px; font-weight: 500;
+  }
+  .eyebrow {
+    align-self: flex-start; padding: 4px 12px; border-radius: var(--radius-pill);
+    border: 1px solid var(--border-strong); font-size: 12px; line-height: 16px; font-weight: 500;
+    color: var(--secondary-foreground);
+  }
+  .badge { justify-self: start; padding: 2px 8px; border-radius: var(--radius-pill); font-size: 12px; line-height: 16px; font-weight: 500; }
+
+  .frame { border-radius: var(--radius-frame); border: 1px solid var(--border); background: var(--surface); overflow: hidden; }
+  .frame.pad { padding: 24px; }
+  .shadow { box-shadow: 0 24px 64px var(--shadow-color); }
+  .card { padding: 16px; border-radius: var(--radius-card); background: var(--frame); border: 1px solid var(--border); }
+  .table { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--frame); }
+  .tr { display: grid; align-items: center; gap: 16px; padding: 12px 16px; border-bottom: 1px solid var(--border-subtle); font-size: 14px; line-height: 20px; }
+  .tr:last-child { border-bottom: 0; }
+  .ruled { padding-top: 24px; border-top: 1px solid var(--border); }
+
+  .sidebar { padding: 16px 12px; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; }
+  .sidebar-title { margin-bottom: 12px; padding: 0 8px; font-size: 14px; font-weight: 600; }
+  .side-item { padding: 6px 8px; border-radius: 6px; font-size: 14px; color: var(--muted-foreground); }
+  .side-item.active { background: var(--accent); color: var(--foreground); }
+  .app-main { padding: 24px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+  .step { padding: 24px 16px; }
+  .step-n {
+    width: 32px; height: 32px; border-radius: var(--radius-pill); border: 1px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600;
+  }
+  .cta { align-items: center; text-align: center; }
+  .footer { padding: 48px 0; }
+  .foot-col { display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 20px; }
+  .foot-col a { color: var(--muted-foreground); }
+  .foot-col a:hover { color: var(--foreground); }
+
+  @container (max-width: 760px) {
+    .wrap { padding: 0 16px; }
+    .nav-links, .hide-sm { display: none; }
+    .split, .grid-3, .steps, .faq, .foot, .app { grid-template-columns: minmax(0, 1fr); }
+    .section { padding: 64px 0; }
+    .hero { padding-top: 64px; }
+    .hero-h { font-size: 30px; line-height: 36px; }
+    .statement { font-size: 24px; line-height: 32px; }
+  }
+  @container (max-width: 400px) {
+    .nav-row .btn-ghost { display: none; }
+  }
+</style>
