@@ -1,8 +1,6 @@
 import { defineConfig } from "astro/config";
 
-// Served by GitHub Pages as a project site, so every URL sits under /landing.
-// ponytail: drop `base` and change `site` when a custom domain points here.
+// Served by GitHub Pages at the ravefort.com custom domain, from the root.
 export default defineConfig({
-  site: "https://ravefort.github.io",
-  base: "/landing",
+  site: "https://ravefort.com",
 });

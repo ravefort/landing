@@ -4,7 +4,7 @@ The public landing page for Ravefort, built with [Astro](https://astro.build) an
 
 ```bash
 npm install
-npm run dev      # http://localhost:4321/landing/
+npm run dev      # http://localhost:4321/
 npm run build    # static site in dist/
 ```
 
