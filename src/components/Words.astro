@@ -1,0 +1,12 @@
+---
+// Splits a heading's text into words for the text intro. `start` continues the count when a
+// heading is split across lines or elements, so the 50ms stagger runs on without restarting.
+interface Props {
+  text: string;
+  start?: number;
+}
+const { text, start = 0 } = Astro.props;
+const words = text.split(" ");
+---
+
+{words.map((word, i) => <><span class="word" style={`--w: ${start + i}`}>{word}</span>{i < words.length - 1 && " "}</>)}
