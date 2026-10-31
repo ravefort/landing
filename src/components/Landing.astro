@@ -8,7 +8,7 @@ import Words from "./Words.astro";
 // Version 3 uses "Hero with photo · C", text on a panel (Landing-Hero-Photo-C), and How it works
 // version D, picture left and steps right (Landing-HowItWorks-D).
 interface Props {
-  version?: 1 | 2 | 3;
+  version?: 1 | 2 | 3 | 4;
 }
 const { version = 1 } = Astro.props;
 // ponytail: links still to confirm before launch: the demo booking link, the app's sign-in URL,
@@ -73,6 +73,12 @@ const steps: { title: string; body: string; src?: string; alt?: string; note?: s
   { title: "Bring your patients", body: "Your existing records come with you, checked before anything is saved.", src: "/shots/import-review.webp", alt: "Reviewing uploaded patient records before they are saved", more: "with the records you keep" },
   { title: "Set up recall", body: "Ravefort works out who’s due back, so no patient gets forgotten.", src: "/shots/recall.webp", alt: "The Recall board: patients due back sorted into to call, calling, call back and booked", more: "and see who’s due back" },
   { title: "Invite your team", body: "Everyone works from the same records and sees only what their role allows.", src: "/shots/team.webp", alt: "Team & access: each member with their role and status", more: "each with the right access" },
+];
+const v4Pictures = [
+  { name: "setup", alt: "Welcome to Ravefort: your clinic is ready, with patients and team invited.", x: 117.27, y: 80, w: 412.211, h: 367.125 },
+  { name: "import", alt: "Patient import review with ready, needs a fix and possible duplicate statuses.", x: 25.27, y: 127, w: 593.333, h: 267 },
+  { name: "recall", alt: "Recall funnel showing patients due, contacted, booked and returned.", x: 81.27, y: 47, w: 484, h: 433.287 },
+  { name: "team", alt: "Invite your team by work email and assign Manager, Recall or Clinician access.", x: 76.27, y: 30, w: 493, h: 468 },
 ];
 const OPEN_STEP = 1;
 
@@ -189,6 +195,7 @@ const structuredData = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    {version === 4 && <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" />}
   </head>
   <body class={`v${version}`}>
     <header class="nav" id="nav">
@@ -205,6 +212,23 @@ const structuredData = {
     </header>
 
     <main id="top">
+      {version === 4 && (
+        <div class="v4-hero-wrap">
+          <section class="v4-hero" aria-labelledby="hero-h">
+            <div class="v4-hero-photo">
+              <img src="/photos/Hero%203.jpeg" width="2752" height="1536" fetchpriority="high" alt="A clinician in a white coat working at her laptop in a sunlit clinic." />
+            </div>
+            <div class="wrap v4-hero-content">
+              <h1 id="hero-h">The clinic operations suite for teams who can’t afford to lose a patient.</h1>
+              <p>Your front desk, recall team and clinicians share one record for every patient, so patients don’t have to repeat themselves and you can see who needs attention.</p>
+              <div class="v4-hero-buttons">
+                <a class="btn btn-primary" href={DEMO_URL}>Book a demo</a>
+                <a class="btn v4-talk" href={TALK_URL}>Talk to us</a>
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
       {version === 2 && (
       <div class="ph-wrap">
         <section class="ph-frame theme-dark" aria-labelledby="hero-h">
@@ -347,7 +371,7 @@ const structuredData = {
         </div>
       </section>
 
-      {version === 2 && (
+      {(version === 2 || version === 4) && (
       <section id="how" class="sec" aria-labelledby="hb-h">
         <div class="wrap stack-48">
           <div class="hc-head">
@@ -371,7 +395,12 @@ const structuredData = {
                     <p class="body" style={`max-width: 440px; --d: ${after}ms`} data-reveal>{t.body}</p>
                     <div class="hc-cta" style={`--d: ${after + 60}ms`} data-reveal><a class="btn btn-primary" href={DEMO_URL}>Book a demo</a></div>
                   </div>
-                  <div class="hc-pic" aria-hidden={t.src ? undefined : "true"}>
+                  {version === 4 ? (
+                    <div class="v4-step-picture">
+                      <img class={`v4-step-background v4-step-background-${i}`} src={`/v4/${v4Pictures[i].name}-background.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                      <img class="v4-step-shot" src={`/v4/${v4Pictures[i].name}.webp`} alt={v4Pictures[i].alt} loading="lazy" decoding="async" style={`left: ${v4Pictures[i].x / 647.273 * 100}%; top: ${v4Pictures[i].y / 528 * 100}%; width: ${v4Pictures[i].w / 647.273 * 100}%; height: ${v4Pictures[i].h / 528 * 100}%`} />
+                    </div>
+                  ) : <div class="hc-pic" aria-hidden={t.src ? undefined : "true"}>
                     {t.src ? (
                       <img src={t.src} alt={t.alt} width="2880" height="1800" loading="lazy" decoding="async" data-reveal style="--d: 150ms" />
                     ) : (
@@ -381,7 +410,7 @@ const structuredData = {
                         <span class="t-body-sm muted" style="max-width: 320px">{t.note}</span>
                       </figure>
                     )}
-                  </div>
+                  </div>}
                 </article>
               );
             })}
@@ -1110,4 +1139,42 @@ const structuredData = {
     .hd-step { padding: 16px; }
     .hd-cta .btn { width: 100%; }
   }
+
+  /* Version 4: Figma 258:9385 hero and 258:11101 step cards. */
+  .v4-hero-wrap { padding-bottom: 64px; }
+  .v4-hero { position: relative; height: 758px; overflow: hidden; background: #18426a; }
+  .v4-hero-photo { position: absolute; inset: 0; background: linear-gradient(to top, rgba(39,32,56,.7) 14.795%, transparent 72.938%); }
+  .v4-hero-photo img { position: absolute; left: 0; top: -4.617%; width: 102.646%; height: 114.38%; object-fit: cover; }
+  .v4-hero-photo::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.2); }
+  .v4-hero-content { position: relative; height: 100%; padding-top: 120px; padding-bottom: 36px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 16px; color: #fff; }
+  .v4-hero h1 { max-width: 720px; font: 400 60px/72px "Newsreader", Georgia, serif; letter-spacing: -1.2px; }
+  .v4-hero p { max-width: 546px; font-size: 18px; line-height: 28px; }
+  .v4-hero-buttons { display: flex; gap: 12px; padding-top: 8px; }
+  .v4-talk { background: #fff; color: #0a0a0a; border: 1px solid #e5e5e5; }
+  .v4 .hc-card { position: relative; top: auto; height: 560px; }
+  .v4-step-picture { position: relative; margin: 16px 16px 16px 0; border-radius: var(--radius-card); overflow: hidden; background: #fff; }
+  .v4-step-background, .v4-step-shot { position: absolute; max-width: none; }
+  .v4-step-background-0 { left: -1.812%; top: -44.508%; width: 103.357%; height: 253.409%; }
+  .v4-step-background-1 { left: -45.811%; top: -14.678%; width: 187.09%; height: 128.03%; transform: rotate(90deg); transform-origin: center; }
+  .v4-step-background-2 { left: -4.13%; top: -32.86%; width: 108.15%; height: 165.72%; }
+  .v4-step-background-3 { left: -7.837%; top: -78.977%; width: 111.237%; height: 253.598%; }
+  .v4-step-background { object-fit: cover; }
+  .v4-step-shot { object-fit: fill; }
+  @container (max-width: 1100px) and (min-width: 761px) {
+    .v4 .hc-text { padding: 32px; }
+    .v4 .hc-h3 { font-size: 28px; line-height: 34px; }
+    .v4 .hc-head { gap: 32px; }
+  }
+  @container (max-width: 760px) {
+    .v4-hero-wrap { padding-bottom: 40px; }
+    .v4-hero { height: 720px; }
+    .v4-hero-photo img { width: 100%; height: 104%; top: -2%; object-position: 65% center; }
+    .v4-hero-photo::after { background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.1) 90%); }
+    .v4-hero-content { padding-top: 48px; padding-bottom: 32px; }
+    .v4-hero h1 { font-size: 40px; line-height: 46px; letter-spacing: -.8px; }
+    .v4-hero p { font-size: 16px; line-height: 24px; }
+    .v4 .hc-card { height: auto; }
+    .v4-step-picture { margin: 0 16px 16px; aspect-ratio: 647.273 / 528; }
+  }
+
 </style>
