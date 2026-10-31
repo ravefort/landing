@@ -1,5 +1,6 @@
 ---
 import Words from "./Words.astro";
+import MobileMenu from "./MobileMenu.astro";
 
 // Ported from "Copy v1" on the Ravefort MVP design canvas (Landing-Copy-v1), with the
 // Copy v1 motion spec: section reveals, hero load, person-card row, How it works (version B), FAQ.
@@ -207,6 +208,7 @@ const structuredData = {
         <div class="nav-end">
           {SIGN_IN_URL && <a href={SIGN_IN_URL} class="nav-signin">Sign in</a>}
           <a href={DEMO_URL} class="btn btn-primary btn-sm">Book a demo</a>
+          {version === 4 && <MobileMenu links={navLinks} demoUrl={DEMO_URL} />}
         </div>
       </nav>
     </header>
