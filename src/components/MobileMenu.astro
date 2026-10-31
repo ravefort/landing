@@ -1,4 +1,7 @@
 ---
+import Bars from "../assets/gravity/bars.svg";
+import Xmark from "../assets/gravity/xmark.svg";
+import ArrowUpRight from "../assets/gravity/arrow-up-right.svg";
 interface Props {
   links: string[][];
   demoUrl: string;
@@ -7,16 +10,16 @@ const { links, demoUrl } = Astro.props;
 ---
 
 <button class="menu-trigger" type="button" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
-  <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+  <Bars width="24" height="24" aria-hidden="true" />
 </button>
 
 <dialog id="mobile-menu" class="menu-sheet" aria-label="Navigation">
   <div class="menu-head">
     <a class="menu-brand" href="#top" aria-label="Ravefort home"><span class="menu-logo" aria-hidden="true">R</span>Ravefort</a>
-    <button class="menu-close" type="button" aria-label="Close menu" autofocus><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+    <button class="menu-close" type="button" aria-label="Close menu" autofocus><Xmark width="24" height="24" aria-hidden="true" /></button>
   </div>
   <nav class="menu-links" aria-label="Mobile">
-    {links.map(([href, label]) => <a href={href}>{label}<span aria-hidden="true">↗</span></a>)}
+    {links.map(([href, label], i) => <a href={href} style={`--menu-delay: ${i * 40}ms`}>{label}<ArrowUpRight width="20" height="20" aria-hidden="true" /></a>)}
   </nav>
   <div class="menu-bottom"><a class="menu-demo" href={demoUrl}>Book a demo</a></div>
 </dialog>
@@ -39,12 +42,10 @@ const { links, demoUrl } = Astro.props;
 </script>
 
 <style>
+  .menu-trigger, .menu-close { width: 44px; height: 44px; flex: none; display: grid; place-items: center; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
   .menu-trigger { display: none; }
-  .menu-trigger, .menu-close { width: 44px; height: 44px; flex: none; position: relative; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
-  .menu-trigger span { position: absolute; left: 8px; right: 8px; height: 1px; background: currentColor; }
-  .menu-trigger span:nth-child(1) { top: 15px; }
-  .menu-trigger span:nth-child(2) { top: 21px; }
-  .menu-trigger span:nth-child(3) { top: 27px; }
+  .menu-trigger, .menu-close, .menu-demo { transition: transform 150ms var(--ease-out); }
+  .menu-trigger:active, .menu-close:active, .menu-demo:active { transform: scale(.97); }
   .menu-sheet { position: fixed; inset: 0; margin: 0; padding: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; box-sizing: border-box; border: 0; background: #fff; color: var(--foreground); opacity: 0; overflow: auto; overscroll-behavior: contain; transition: opacity 250ms var(--ease-out), display 250ms allow-discrete, overlay 250ms allow-discrete; }
   .menu-sheet[open] { display: flex; flex-direction: column; opacity: 1; }
   @starting-style { .menu-sheet[open] { opacity: 0; } }
@@ -52,20 +53,28 @@ const { links, demoUrl } = Astro.props;
   .menu-head { min-height: 88px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .menu-brand { display: inline-flex; align-items: center; gap: 8px; color: #171717; font: 700 20px/28px var(--font-sans); letter-spacing: -.4px; }
   .menu-logo { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 6px; background: #171717; color: #fafafa; font-size: 14px; }
-  .menu-close span { position: absolute; left: 8px; right: 8px; top: 21px; height: 1px; background: currentColor; transform: rotate(45deg); }
-  .menu-close span:last-child { transform: rotate(-45deg); }
   .menu-links { padding: 0 24px; }
   .menu-links a { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--border); color: #171717; font: 500 16px/24px var(--font-sans); }
-  .menu-links a span { font-size: 20px; font-weight: 400; color: var(--muted-foreground); }
+  .menu-links a svg { flex: none; color: var(--muted-foreground); }
+  .menu-links a, .menu-bottom { opacity: 0; transform: translateY(8px); transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out); }
+  .menu-sheet[open] .menu-links a, .menu-sheet[open] .menu-bottom { opacity: 1; transform: translateY(0); transition-duration: 240ms; transition-delay: var(--menu-delay, 160ms); }
+  @starting-style {
+    .menu-sheet[open] .menu-links a, .menu-sheet[open] .menu-bottom { opacity: 0; transform: translateY(8px); }
+  }
   .menu-bottom { margin-top: auto; padding: 32px 24px max(16px, env(safe-area-inset-bottom)); }
   .menu-demo { display: flex; align-items: center; justify-content: center; min-height: 44px; border-radius: var(--radius-pill); background: var(--frame); color: #171717; font: 500 16px/24px var(--font-sans); }
   :global(html:has(.menu-sheet[open])) { overflow: hidden; }
   :global(html.js .v4 .nav-end > .btn-sm) { display: inline-flex; }
   @media (max-width: 760px) {
-    :global(html.js) .menu-trigger { display: block; color: #fff; }
+    :global(html.js) .menu-trigger { display: grid; color: #fff; }
     :global(html.js .v4 .nav-end > .btn-sm) { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .menu-sheet { transition-duration: 100ms; }
+    .menu-links a, .menu-bottom, .menu-sheet[open] .menu-links a, .menu-sheet[open] .menu-bottom { transform: none; transition-duration: 100ms; transition-delay: 0ms; }
+    .menu-trigger:active, .menu-close:active, .menu-demo:active { transform: none; }
+    @starting-style {
+      .menu-sheet[open] .menu-links a, .menu-sheet[open] .menu-bottom { transform: none; }
+    }
   }
 </style>
