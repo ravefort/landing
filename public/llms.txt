@@ -23,4 +23,4 @@ Ravefort runs in a web browser; there is nothing to install. It is being built w
 
 - [Home](https://ravefort.com/)
 - [How it works](https://ravefort.com/#how)
-- [Questions](https://ravefort.com/#faq)
+- [Questions](https://ravefort.com/#questions)
