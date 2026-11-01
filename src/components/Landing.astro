@@ -594,20 +594,31 @@ const structuredData = {
     <script>
       const reduce = matchMedia("(prefers-reduced-motion: reduce)");
 
-      // Top bar: background and border fade in once the page has scrolled 8px. It is marked hidden
-      // while you scroll down and shown again the moment you scroll up (version 4 slides it away).
-      // It stays put over the hero and while a keyboard user is tabbing through it.
+      // A little directional travel prevents touch inertia from repeatedly reversing the header.
+      // The glass fades independently of the bar as it crosses back over the hero.
       const nav = document.getElementById("nav")!;
+      const hero = document.querySelector<HTMLElement>(".v4-hero");
       const tabbing = () => !!nav.querySelector(":focus-visible");
-      let lastY = scrollY;
+      let lastY = Math.max(0, scrollY);
+      let travel = 0;
+      let navFrame = 0;
       const onScroll = () => {
-        const y = scrollY;
-        nav.classList.toggle("is-scrolled", y > 8);
-        if (y < lastY || y <= nav.offsetHeight || tabbing()) nav.classList.remove("is-hidden");
-        else if (y > lastY) nav.classList.add("is-hidden");
+        navFrame = 0;
+        const y = Math.max(0, scrollY);
+        const delta = y - lastY;
+        if (delta) travel = Math.sign(delta) === Math.sign(travel) ? travel + delta : delta;
+        const navHeight = nav.offsetHeight;
+        // Keep the glass while hero copy passes behind the header; fade it near the top photo.
+        const overHero = hero && y <= hero.offsetTop + navHeight;
+        nav.classList.toggle("is-scrolled", hero ? !overHero : y > 8);
+        const menuOpen = !!nav.querySelector("dialog[open]");
+        if (y <= navHeight || tabbing() || menuOpen || travel <= -8) nav.classList.remove("is-hidden");
+        else if (travel >= 12) nav.classList.add("is-hidden");
         lastY = y;
       };
-      addEventListener("scroll", onScroll, { passive: true });
+      const queueNav = () => { if (!navFrame) navFrame = requestAnimationFrame(onScroll); };
+      addEventListener("scroll", queueNav, { passive: true });
+      addEventListener("resize", queueNav);
       nav.addEventListener("focusin", () => { if (tabbing()) nav.classList.remove("is-hidden"); });
       onScroll();
 
@@ -1209,16 +1220,22 @@ const structuredData = {
   .v4 .nav-links a { flex: none; color: #fff; font-size: 16px; line-height: 24px; font-weight: 500; white-space: nowrap; }
   .v4 .nav-end { margin-left: 0; }
   .v4 .nav .btn-sm { font-size: 16px; line-height: 24px; font-weight: 600; padding: 0 20px; }
-  /* Scrolled: white frosted glass with dark text. Scrolling down slides the bar up out of view;
-     scrolling up brings it straight back. */
-  .v4 .nav { transition: background-color 200ms var(--ease-in-out), box-shadow 200ms var(--ease-in-out), transform 250ms var(--ease-out); }
-  .v4 .nav.is-hidden { transform: translateY(-100%); }
-  .v4 .brand, .v4 .nav-links a { transition: color 200ms var(--ease-in-out); }
-  .v4 .nav-links { transition: background-color 200ms var(--ease-in-out); }
-  .v4 .nav.is-scrolled { background: rgba(255,255,255,.72); box-shadow: 0 1px 0 rgba(23,23,23,.06); -webkit-backdrop-filter: blur(16px) saturate(180%); backdrop-filter: blur(16px) saturate(180%); }
+  /* The bar slides and fades as one piece; its permanent glass layer fades separately. */
+  .v4 .nav { background: transparent; transform: translateY(0); opacity: 1; transition: transform 280ms var(--ease-out), opacity 200ms var(--ease-out); }
+  .v4 .nav::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: rgba(255,255,255,.72); box-shadow: 0 1px 0 rgba(23,23,23,.06); -webkit-backdrop-filter: blur(16px) saturate(180%); backdrop-filter: blur(16px) saturate(180%); opacity: 0; transition: opacity 240ms var(--ease-out); }
+  .v4 .nav-row { position: relative; }
+  .v4 .nav.is-hidden { transform: translateY(calc(-100% - 2px)); opacity: 0; pointer-events: none; }
+  .v4 .brand, .v4 .nav-links a, .v4 .menu-trigger { transition: color 240ms var(--ease-out); }
+  .v4 .nav-links { transition: background-color 240ms var(--ease-out); }
+  .v4 .nav.is-scrolled { background: transparent; }
+  .v4 .nav.is-scrolled::before { opacity: 1; }
   .v4 .nav.is-scrolled .brand, .v4 .nav.is-scrolled .nav-links a, .v4 .nav.is-scrolled .menu-trigger { color: #171717; }
   .v4 .nav.is-scrolled .nav-links { background: rgba(23,23,23,.05); }
-  @media (prefers-reduced-motion: reduce) { .v4 .nav { transition-property: background-color, box-shadow; } }
+  @media (prefers-reduced-motion: reduce) {
+    .v4 .nav { transition: opacity 100ms var(--ease-out); }
+    .v4 .nav.is-hidden { transform: none; }
+    .v4 .nav::before { transition-duration: 100ms; }
+  }
   .v4-hero-wrap { padding-bottom: 64px; }
   /* Until the photo paints, the frame shows the photo's own average colour (dimmed like the photo)
      rather than a blue that flashed on every reload. */
