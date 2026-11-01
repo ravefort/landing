@@ -1,0 +1,31 @@
+---
+// The guides index. Add each new guide to the top of the list.
+import Guide from "../../layouts/Guide.astro";
+
+const guides = [
+  {
+    href: "/guides/reduce-missed-dental-appointments/",
+    title: "How to reduce missed dental appointments in Nigeria",
+    summary: "When to confirm on WhatsApp, what to say, how to follow up a missed visit and how to track what works. With messages you can copy.",
+  },
+];
+---
+
+<Guide
+  title="Guides for Dental Clinics in Nigeria | Ravefort"
+  description="Practical guides for dental clinic owners and front desk teams in Nigeria: fewer missed appointments, more patients back for check-ups."
+  path="/guides/"
+>
+  <div class="g-article">
+    <h1>Guides for dental clinics</h1>
+    <p class="g-meta" style="font-size: 17px; line-height: 28px">Practical help for clinic owners and front desk teams in Nigeria, from the team building Ravefort.</p>
+    <ul style="list-style: none; padding: 0; margin-top: 40px">
+      {guides.map((g) => (
+        <li style="padding: 24px 0; border-top: 1px solid var(--border)">
+          <h2 style="margin-top: 0; font-size: 22px; line-height: 28px"><a href={g.href} style="text-decoration: none">{g.title}</a></h2>
+          <p style="margin-top: 8px">{g.summary}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Guide>

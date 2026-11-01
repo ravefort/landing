@@ -1,0 +1,130 @@
+---
+// Guide 1: built around the searches clinic owners make about no-shows, with ready-to-send WhatsApp
+// messages. Claims stay general; nothing here depends on figures we can't source.
+import Guide from "../../layouts/Guide.astro";
+
+const headline = "How to reduce missed dental appointments in Nigeria";
+const published = "2026-11-01";
+const faq = [
+  {
+    q: "When should a dental clinic remind patients about an appointment?",
+    a: "Send a WhatsApp confirmation the day before and ask the patient to reply. If they haven’t replied by midday, call them. For early-morning appointments, a short message on the morning helps too.",
+  },
+  {
+    q: "Is WhatsApp or SMS better for appointment reminders in Nigeria?",
+    a: "WhatsApp is usually better, because most patients already use it every day and can reply in one tap. Keep SMS or a phone call for patients who don’t use WhatsApp.",
+  },
+  {
+    q: "What should we do when a patient misses an appointment?",
+    a: "Message them the same day, kindly, and offer two new times. Note what happened on their record so the next person who contacts them knows.",
+  },
+  {
+    q: "What if the same patient keeps missing appointments?",
+    a: "Call them rather than message, ask what’s getting in the way, and book times that suit them better. Some clinics ask for a deposit before long procedures; if you do, explain it clearly when booking.",
+  },
+];
+---
+
+<Guide
+  title="How to Reduce Missed Dental Appointments in Nigeria | Ravefort"
+  description="Practical steps for Nigerian dental clinics to cut no-shows: when to confirm on WhatsApp, what to say, how to follow up a missed visit and track what works."
+  path="/guides/reduce-missed-dental-appointments/"
+  article={{ headline, published, faq }}
+>
+  <article class="g-article">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><a href="/">Ravefort</a> / <a href="/guides/">Guides</a></nav>
+    <h1>{headline}</h1>
+    <p class="g-meta">By the Ravefort team · <time datetime={published}>1 November 2026</time> · 7 minute read</p>
+
+    <div class="g-answer">
+      <strong>The short answer</strong>
+      <p>Confirm every appointment on WhatsApp the day before and ask for a reply. Make it easy to move a booking, book the next visit before the patient leaves, and follow up every missed appointment the same day. Then count your no-shows each week, so you can see what’s working.</p>
+    </div>
+
+    <h2>Why patients miss dental appointments</h2>
+    <p>A missed appointment is an empty chair you’ve already paid for: your dentist’s time, your nurse’s time and the slot you could have given someone else. Before you fix it, it helps to know why it happens. In most clinics the reasons are ordinary:</p>
+    <ul>
+      <li><strong>They forgot.</strong> A check-up booked four or six months ahead is easy to lose track of.</li>
+      <li><strong>Traffic and transport.</strong> In Lagos, Abuja and Port Harcourt, a journey that took 30 minutes last week can take two hours today.</li>
+      <li><strong>Worry about cost.</strong> Patients who don’t know what treatment will cost sometimes stay away instead of asking.</li>
+      <li><strong>Nerves.</strong> Plenty of people put off the dentist, and it’s easier not to turn up than to cancel.</li>
+      <li><strong>Work or family came first.</strong> Something more urgent came up and they didn’t think to tell you.</li>
+      <li><strong>Nobody could reach them.</strong> The number on file is old, switched off or not on WhatsApp.</li>
+    </ul>
+    <p>Most of these can be fixed with a reminder at the right time, a message that’s easy to answer, and a record that stays up to date.</p>
+
+    <h2>1. Confirm every appointment the day before</h2>
+    <p>This one habit does more than anything else on this list. Message each patient the day before their appointment and ask them to reply. A reply tells you they’re coming. No reply by midday is your signal to call.</p>
+    <p>Send it on WhatsApp where you can. Most patients check it all day, and replying takes one tap. Keep SMS or a call for people who don’t use WhatsApp.</p>
+
+    <h2>2. Make it easy to move an appointment</h2>
+    <p>A patient who can’t come but finds it awkward to cancel will often just not turn up. Tell them plainly that moving is fine. An appointment you know about two days early is a slot you can give to someone else. One you find out about at 10:15 is lost.</p>
+
+    <h2>3. Book the next visit before the patient leaves</h2>
+    <p>Check-ups and follow-up treatment are the appointments most often forgotten. Book the next one at the front desk while the patient is standing there, and tell them you’ll remind them nearer the time. It’s far easier than calling them months later to start from nothing.</p>
+
+    <h2>4. Keep phone numbers up to date</h2>
+    <p>Reminders only work if they reach the patient. At each visit, check the phone number on file and ask which number they use for WhatsApp. Where patients use two lines, record both. A wrong number quietly turns every future reminder into a missed appointment.</p>
+
+    <h2>5. Be clear about cost early</h2>
+    <p>If treatment will cost more than a routine visit, give the patient an idea of the cost before the appointment, not in the chair. Patients who know what to expect are less likely to stay away because they’re worried.</p>
+
+    <h2>6. Plan around traffic</h2>
+    <p>Suggest times that avoid the worst of the rush where you can, and add a line to your reminder about leaving early. For patients who travel far, a late-morning or early-afternoon slot can be the difference between arriving and giving up halfway.</p>
+
+    <h2>7. Follow up every missed appointment the same day</h2>
+    <p>When someone doesn’t come, message them that day. Keep it warm, not cross: you want them back, not embarrassed. Offer two new times, so replying is easy. Then note what happened on their record, so whoever contacts them next knows the story.</p>
+
+    <h2>8. Count your no-shows every week</h2>
+    <p>You can’t improve what you don’t measure. Once a week, look at three things:</p>
+    <ol>
+      <li>How many appointments were missed.</li>
+      <li>Which days and times they were on.</li>
+      <li>Which patients have missed more than once.</li>
+    </ol>
+    <p>Patterns show up quickly: a Monday-morning problem, a slot that clashes with school runs, or a handful of patients who need a phone call instead of a message.</p>
+
+    <h2>WhatsApp messages you can copy</h2>
+    <p>Change the names and times to suit your clinic. Short, friendly messages get the most replies.</p>
+
+    <p class="g-template-label">The day before</p>
+    <p class="g-template">Hello Ngozi, this is [your clinic’s name]. A reminder that your check-up is tomorrow, Tuesday, at 10:00am.
+Please reply YES to confirm, or let us know if you’d like another time. Thank you!</p>
+
+    <p class="g-template-label">On the morning (early appointments)</p>
+    <p class="g-template">Good morning Tunde, we’ll see you at 8:30am today. Traffic is heavy around Lekki this morning, so please leave a little early. See you soon!</p>
+
+    <p class="g-template-label">After a missed appointment</p>
+    <p class="g-template">Hello Kola, we missed you at your 2:00pm appointment today. We hope all is well. Would Thursday at 11:00am or Saturday at 10:00am work for you instead?</p>
+
+    <p class="g-template-label">When a check-up is due</p>
+    <p class="g-template">Hello Bola, it’s been six months since your last check-up at [your clinic’s name]. Would you like us to book you in? Reply with a day that suits you.</p>
+
+    <p>Only message patients on numbers they gave you to be contacted on, and stop if someone asks you to.</p>
+
+    <h2>How Ravefort helps</h2>
+    <p>Ravefort is dental clinic software built for Nigeria. It keeps your diary, patient records and recall list in one place:</p>
+    <ul>
+      <li>No-shows and late arrivals stand out in the day’s diary.</li>
+      <li>The recall list shows everyone who’s overdue for a check-up or treatment, each person once.</li>
+      <li>Your team opens a ready-made WhatsApp message to the patient in one click, then notes what happened on their record.</li>
+    </ul>
+    <p>Ravefort doesn’t send messages automatically yet. Your team sends them from your own WhatsApp, and automatic reminders are coming next.</p>
+
+    <section class="g-faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Questions clinics ask</h2>
+      {faq.map((f) => (
+        <>
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </>
+      ))}
+    </section>
+
+    <aside class="g-cta">
+      <h2>See who’s due back at your clinic</h2>
+      <p>Book a demo and we’ll show you Ravefort with your own diary and recall list in mind.</p>
+      <a class="btn" href="/#demo">Book a demo</a>
+    </aside>
+  </article>
+</Guide>

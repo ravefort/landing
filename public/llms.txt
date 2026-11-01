@@ -37,3 +37,7 @@ Ravefort runs in a web browser; there is nothing to install. It is being built w
 - [How it works](https://ravefort.com/#how)
 - [Questions](https://ravefort.com/#questions)
 - [Book a demo](https://ravefort.com/#demo)
+
+## Guides
+
+- [How to reduce missed dental appointments in Nigeria](https://ravefort.com/guides/reduce-missed-dental-appointments/): when to confirm on WhatsApp, what to say, following up missed visits, tracking no-shows, and WhatsApp messages clinics can copy.
