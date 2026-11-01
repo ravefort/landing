@@ -168,7 +168,19 @@ const structuredData = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline>document.documentElement.classList.add("js");</script>
+    <!-- A reload starts at the top. Restoring the old scroll position painted one frame before the
+         page script ran (bar see-through, cards full size, text hidden), then everything snapped.
+         A link to a section (#how) jumps straight there while loading; smooth scrolling is only for
+         clicks on the page's own links. -->
+    <script is:inline>
+      {
+        const root = document.documentElement;
+        root.classList.add("js");
+        history.scrollRestoration = "manual";
+        root.style.scrollBehavior = "auto";
+        addEventListener("load", () => requestAnimationFrame(() => root.style.removeProperty("scroll-behavior")));
+      }
+    </script>
     <title>{title}</title>
     <meta name="description" content={description} />
     {version !== 1 && <meta name="robots" content="noindex" />}
@@ -218,12 +230,12 @@ const structuredData = {
         <div class="v4-hero-wrap">
           <section class="v4-hero" aria-labelledby="hero-h">
             <div class="v4-hero-photo">
-              <img src="/photos/Hero%203.jpeg" width="2752" height="1536" fetchpriority="high" alt="A clinician in a white coat working at her laptop in a sunlit clinic." />
+              <img src="/photos/hero-clinic-2400.webp" srcset="/photos/hero-clinic-1280.webp 1280w, /photos/hero-clinic-2400.webp 2400w" sizes="100vw" width="2400" height="1340" fetchpriority="high" alt="A clinician in a white coat working at her laptop in a sunlit clinic." />
             </div>
             <div class="wrap v4-hero-content">
-              <h1 id="hero-h">The clinic operations suite for teams who can’t afford to lose a patient.</h1>
-              <p>Your front desk, recall team and clinicians share one record for every patient, so patients don’t have to repeat themselves and you can see who needs attention.</p>
-              <div class="v4-hero-buttons">
+              <h1 id="hero-h"><Words text={heroH} /></h1>
+              <p class="hero-in" style="--i: 0">{heroSubPhoto}</p>
+              <div class="v4-hero-buttons hero-in" style="--i: 1">
                 <a class="btn btn-primary" href={DEMO_URL}>Book a demo</a>
                 <a class="btn v4-talk" href={TALK_URL}>Talk to us</a>
               </div>
@@ -400,7 +412,7 @@ const structuredData = {
                   {version === 4 ? (
                     <div class="v4-step-picture">
                       <img class={`v4-step-background v4-step-background-${i}`} src={`/v4/${v4Pictures[i].name}-background.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-                      <img class="v4-step-shot" src={`/v4/${v4Pictures[i].name}.webp`} alt={v4Pictures[i].alt} loading="lazy" decoding="async" style={`left: ${v4Pictures[i].x / 647.273 * 100}%; top: ${v4Pictures[i].y / 528 * 100}%; width: ${v4Pictures[i].w / 647.273 * 100}%; height: ${v4Pictures[i].h / 528 * 100}%`} />
+                      <img class="v4-step-shot" src={`/v4/${v4Pictures[i].name}.webp`} alt={v4Pictures[i].alt} loading="lazy" decoding="async" data-reveal style={`left: ${v4Pictures[i].x / 647.273 * 100}%; top: ${v4Pictures[i].y / 528 * 100}%; width: ${v4Pictures[i].w / 647.273 * 100}%; height: ${v4Pictures[i].h / 528 * 100}%; --d: 150ms`} />
                     </div>
                   ) : <div class="hc-pic" aria-hidden={t.src ? undefined : "true"}>
                     {t.src ? (
@@ -579,10 +591,21 @@ const structuredData = {
     <script>
       const reduce = matchMedia("(prefers-reduced-motion: reduce)");
 
-      // Top bar: background and border fade in once the page has scrolled 8px.
+      // Top bar: background and border fade in once the page has scrolled 8px. It is marked hidden
+      // while you scroll down and shown again the moment you scroll up (version 4 slides it away).
+      // It stays put over the hero and while a keyboard user is tabbing through it.
       const nav = document.getElementById("nav")!;
-      const onScroll = () => nav.classList.toggle("is-scrolled", scrollY > 8);
+      const tabbing = () => !!nav.querySelector(":focus-visible");
+      let lastY = scrollY;
+      const onScroll = () => {
+        const y = scrollY;
+        nav.classList.toggle("is-scrolled", y > 8);
+        if (y < lastY || y <= nav.offsetHeight || tabbing()) nav.classList.remove("is-hidden");
+        else if (y > lastY) nav.classList.add("is-hidden");
+        lastY = y;
+      };
       addEventListener("scroll", onScroll, { passive: true });
+      nav.addEventListener("focusin", () => { if (tabbing()) nav.classList.remove("is-hidden"); });
       onScroll();
 
       // Section reveal: once, when 15% of the element is on screen.
@@ -605,6 +628,31 @@ const structuredData = {
         { threshold: 0.15 },
       );
       document.querySelectorAll("[data-reveal], [data-reveal-group], [data-words], [data-fill]").forEach((el) => io.observe(el));
+
+      // Stacked cards: as the next card slides over, the one underneath shrinks to 0.96. It follows
+      // the scroll position, with no timer, and only while the cards stick (not on phones).
+      const hcCards = [...document.querySelectorAll<HTMLElement>(".hc-card")];
+      if (hcCards.length) {
+        let queued = false;
+        const settle = () => {
+          queued = false;
+          const still = reduce.matches || getComputedStyle(hcCards[0]).position !== "sticky";
+          hcCards.forEach((card, i) => {
+            const next = hcCards[i + 1];
+            if (still || !next) return card.style.removeProperty("--hc-scale");
+            const stuckAt = parseFloat(getComputedStyle(card).top);
+            const h = card.offsetHeight;
+            // 0 when the next card reaches this card's bottom edge, 1 when it has stuck 16px lower.
+            const p = Math.min(1, Math.max(0, (stuckAt + h - next.getBoundingClientRect().top) / (h - 16)));
+            card.style.setProperty("--hc-scale", String(1 - 0.04 * p));
+          });
+        };
+        const queue = () => { if (!queued) { queued = true; requestAnimationFrame(settle); } };
+        addEventListener("scroll", queue, { passive: true });
+        addEventListener("resize", queue);
+        reduce.addEventListener("change", queue);
+        settle();
+      }
 
       // Person cards: previous / next scroll by one card plus the gap, and switch off at either end.
       const row = document.getElementById("who-row")!;
@@ -922,6 +970,8 @@ const structuredData = {
     display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
     background: var(--frame); color: var(--foreground);
   }
+  /* Scaled from the top edge, so the strip of each earlier card stays visible above the next. */
+  .hc-card { transform: scale(var(--hc-scale, 1)); transform-origin: 50% 0; }
   .v2 .hc-card { --nav-h: 88px; }
   .hc-card:nth-child(2) { background: var(--border); }
   .hc-card:nth-child(3) { background: var(--border-strong); }
@@ -1148,22 +1198,39 @@ const structuredData = {
   .v4 .nav-row { height: 88px; justify-content: space-between; }
   .v4 .brand { color: #fafafa; }
   .v4 .brand span:last-child { font-size: 20px; line-height: 28px; font-weight: 700; letter-spacing: -.4px; }
-  .v4 .nav-links { flex: none; padding: 16px 32px; border-radius: var(--radius-pill); background: rgba(255,255,255,.26); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
-  .v4 .nav-links a { color: #fff; font-size: 16px; line-height: 24px; font-weight: 500; }
+  .v4 .nav-links {
+    flex: none; width: 438px; height: 56px; box-sizing: border-box;
+    justify-content: center; align-items: flex-start; gap: 32px; padding: 16px 32px;
+    border-radius: var(--radius-pill); background: rgba(255,255,255,.26);
+  }
+  .v4 .nav-links a { flex: none; color: #fff; font-size: 16px; line-height: 24px; font-weight: 500; white-space: nowrap; }
   .v4 .nav-end { margin-left: 0; }
   .v4 .nav .btn-sm { font-size: 16px; line-height: 24px; font-weight: 600; padding: 0 20px; }
-  .v4 .nav.is-scrolled { background: rgba(23,23,23,.7); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+  /* Scrolled: white frosted glass with dark text. Scrolling down slides the bar up out of view;
+     scrolling up brings it straight back. */
+  .v4 .nav { transition: background-color 200ms var(--ease-in-out), box-shadow 200ms var(--ease-in-out), transform 250ms var(--ease-out); }
+  .v4 .nav.is-hidden { transform: translateY(-100%); }
+  .v4 .brand, .v4 .nav-links a { transition: color 200ms var(--ease-in-out); }
+  .v4 .nav-links { transition: background-color 200ms var(--ease-in-out); }
+  .v4 .nav.is-scrolled { background: rgba(255,255,255,.72); box-shadow: 0 1px 0 rgba(23,23,23,.06); -webkit-backdrop-filter: blur(16px) saturate(180%); backdrop-filter: blur(16px) saturate(180%); }
+  .v4 .nav.is-scrolled .brand, .v4 .nav.is-scrolled .nav-links a, .v4 .nav.is-scrolled .menu-trigger { color: #171717; }
+  .v4 .nav.is-scrolled .nav-links { background: rgba(23,23,23,.05); }
+  @media (prefers-reduced-motion: reduce) { .v4 .nav { transition-property: background-color, box-shadow; } }
   .v4-hero-wrap { padding-bottom: 64px; }
-  .v4-hero { position: relative; height: 100svh; min-height: 640px; overflow: hidden; background: #18426a; }
+  /* Until the photo paints, the frame shows the photo's own average colour (dimmed like the photo)
+     rather than a blue that flashed on every reload. */
+  .v4-hero { position: relative; height: 100svh; min-height: 640px; overflow: hidden; background: #857562; }
   .v4-hero-photo { position: absolute; inset: 0; background: linear-gradient(to top, rgba(39,32,56,.7) 14.795%, transparent 72.938%); }
   .v4-hero-photo img { position: absolute; left: 0; top: -4.617%; width: 102.646%; height: 114.38%; object-fit: cover; }
   .v4-hero-photo::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.2); }
   .v4-hero-content { position: relative; height: 100%; padding-top: 120px; padding-bottom: 36px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 16px; color: #fff; }
-  .v4-hero h1 { max-width: 720px; font: 400 60px/72px "Newsreader", Georgia, serif; letter-spacing: -1.2px; }
+  /* Balanced lines, so no single word is left alone on the last line. */
+  .v4-hero h1 { max-width: 720px; font: 400 60px/72px "Newsreader", Georgia, serif; letter-spacing: -1.2px; text-wrap: balance; }
   .v4-hero p { max-width: 546px; font-size: 18px; line-height: 28px; }
   .v4-hero-buttons { display: flex; gap: 12px; padding-top: 8px; }
   .v4-talk { background: #fff; color: #0a0a0a; border: 1px solid #e5e5e5; }
-  .v4 .hc-card { position: relative; top: auto; height: 560px; }
+  /* The bar is out of view while you scroll down through the stack, so card 1 sticks 24px from the very top. */
+  .v4 .hc-card { height: 560px; --nav-h: 0px; }
   .v4-step-picture { position: relative; margin: 16px 16px 16px 0; border-radius: var(--radius-card); overflow: hidden; background: #fff; }
   .v4-step-background, .v4-step-shot { position: absolute; max-width: none; }
   .v4-step-background-0 { left: -1.812%; top: -44.508%; width: 103.357%; height: 253.409%; }
@@ -1173,7 +1240,6 @@ const structuredData = {
   .v4-step-background { object-fit: cover; }
   .v4-step-shot { object-fit: fill; }
   @container (max-width: 1100px) and (min-width: 761px) {
-    .v4 .nav-links { gap: 16px; padding: 16px 20px; }
     .v4 .hc-text { padding: 32px; }
     .v4 .hc-h3 { font-size: 28px; line-height: 34px; }
     .v4 .hc-head { gap: 32px; }
