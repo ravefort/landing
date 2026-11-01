@@ -86,17 +86,24 @@ const v4Pictures = [
 ];
 const OPEN_STEP = 1;
 
-// ponytail: the two [NEED: …] answers must be filled in before this goes live.
+// ponytail: the set-up time [NEED: …] answer is hidden until it's filled in. Pricing isn't published
+// (no pricing page); it's covered on the demo.
 const faq = [
-  { q: "Who is Ravefort for?", a: "Clinics that see patients more than once and want them to come back. We’re starting with dental clinics." },
-  { q: "What happens to our old records?", a: "Upload them as CSV or Excel files and check every row before it’s saved. Nothing is merged without you deciding." },
+// Questions are phrased the way clinic owners search and ask AI assistants, so answers can be quoted
+// as they are. They speak to clinics anywhere in Nigeria; the city focus stays in the footer and structured data.
+  { q: "Who is Ravefort for?", a: "Dental clinics in Nigeria. It suits any clinic that sees patients more than once and wants them to come back." },
+  { q: "Can any dental clinic in Nigeria use Ravefort?", a: "Yes. Ravefort runs in a web browser, so there’s nothing to install, wherever your clinic is. Book a demo and we’ll take you through it." },
+  { q: "How does Ravefort reduce missed appointments?", a: "No-shows and late arrivals stand out in the day’s diary, and the recall list shows everyone who’s overdue, each person once. Your team sends a ready-made WhatsApp message or calls, then notes what happened. Automatic reminders are coming next." },
+  { q: "Can we bring our patient records from Excel or another system?", a: "Yes. Upload them as CSV or Excel files and check every row before it’s saved. Nothing is merged without you deciding." },
   { q: "Does Ravefort message patients for us?", a: "Not yet. Your team opens a ready-made WhatsApp message or calls, then notes what happened on the patient’s record." },
   { q: "Who can see our patients’ information?", a: "Only the people you invite, and only what their role allows. Your records are kept apart from every other clinic’s." },
   { q: "How is “could be worth” worked out?", a: "It’s an estimate, and always labelled as one. A return only counts once the visit is done and paid." },
   { q: "What’s coming next?", a: "Reports on who came back and which follow-ups worked, online booking and automatic reminders." },
   { q: "How long does set-up take?", a: "[NEED: typical set-up time.] We go through each step with you on your demo." },
-  { q: "How much does it cost?", a: "[NEED: pricing.] We’ll talk it through on your demo." },
+  { q: "How much does Ravefort cost?", a: "We don’t publish prices. We go through pricing with you on your demo, once we’ve seen how your clinic works." },
 ];
+// Answers still waiting on facts stay off the page and out of what search engines read.
+const answeredFaq = faq.filter((f) => !f.a.includes("[NEED"));
 const navLinks = [
   ["#product", "Product"],
   ["#how", "How it works"],
@@ -116,12 +123,16 @@ const favicon =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#171717"/><text x="12" y="17" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#fafafa">R</text></svg>',
   );
 const SITE = "https://ravefort.com";
-const title = "Ravefort · Dental clinic software for Nigeria and West Africa";
-// Search snippets cut off around 160 characters.
+// Search: dental clinics in Nigeria, Lagos first, then Abuja and Port Harcourt. The goal is a demo.
+const CITIES = ["Lagos", "Abuja", "Port Harcourt"];
+// Brand first, then the outcome, as Tebra and Practice by Numbers do. Titles cut off around 60
+// characters, snippets around 160; the cities live in the page, not the title.
+const title = "Ravefort | Dental Software That Brings Patients Back";
 const description =
-  "Front desk and patient recall software for dental clinics in Nigeria and West Africa. Book appointments, keep records and bring patients back on WhatsApp.";
+  "Ravefort keeps your dental clinic’s appointments, records and recall list in one place, so no patient is forgotten. For clinics across Nigeria. Book a demo.";
 
 // What search engines and AI assistants read about the business and the product.
+const areaServed = [...CITIES.map((name) => ({ "@type": "City", name, containedInPlace: { "@type": "Country", name: "Nigeria" } })), { "@type": "Country", name: "Nigeria" }];
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -132,7 +143,7 @@ const structuredData = {
       url: SITE,
       email: CONTACT_EMAIL,
       description,
-      areaServed: [{ "@type": "Country", name: "Nigeria" }, { "@type": "Place", name: "West Africa" }],
+      areaServed,
     },
     {
       "@type": "WebSite",
@@ -149,18 +160,17 @@ const structuredData = {
       description: heroSub,
       applicationCategory: "BusinessApplication",
       applicationSubCategory: "Dental practice management",
+      keywords: "dental clinic software, dental practice management software, patient recall, appointment booking, WhatsApp patient messages, Lagos, Abuja, Port Harcourt, Nigeria",
+      potentialAction: { "@type": "ScheduleAction", name: "Book a demo", target: `mailto:${CONTACT_EMAIL}?subject=Ravefort%20demo` },
       operatingSystem: "Web browser",
-      areaServed: [{ "@type": "Country", name: "Nigeria" }, { "@type": "Place", name: "West Africa" }],
-      audience: { "@type": "BusinessAudience", audienceType: "Dental clinics and other clinics that see patients more than once" },
+      areaServed,
+      audience: { "@type": "BusinessAudience", audienceType: "Dental clinics in Lagos, Abuja, Port Harcourt and across Nigeria", geographicArea: areaServed },
       featureList: features.map((f) => `${f.title}: ${f.body}`),
       publisher: { "@id": `${SITE}/#organization` },
     },
     {
       "@type": "FAQPage",
-      // Answers still waiting on facts stay out of what search engines read.
-      mainEntity: faq
-        .filter((f) => !f.a.includes("[NEED"))
-        .map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+      mainEntity: answeredFaq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
     },
   ],
 };
@@ -200,7 +210,7 @@ const structuredData = {
     <meta property="og:image" content={`${SITE}/og.png`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Ravefort: run your front desk, bring your patients back." />
+    <meta property="og:image:alt" content="Ravefort: dental software that brings patients back. Appointments, patient records and recall for clinics in Nigeria." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -394,7 +404,7 @@ const structuredData = {
           <div class="hc-head">
             <div class="stack-12">
               <span class="kicker" data-reveal>How it works</span>
-              <h2 id="hb-h" class="t-title" data-words><Words text="From paper to Ravefort" /><br /><span class="muted"><Words text="in four steps" start={4} /></span></h2>
+              <h2 id="hb-h" class="t-title" data-words><Words text="From paper to Ravefort" />{" "}<br /><span class="muted"><Words text="in four steps" start={4} /></span></h2>
             </div>
             <p class="lead" style="max-width: 520px; --d: 350ms" data-reveal>Bring your diary, patients and recall into one place. Your whole team works from the same records. We go through each step with you on your demo.</p>
           </div>
@@ -408,7 +418,7 @@ const structuredData = {
                 <article class:list={["hc-card", { "theme-dark": i === 3 }]} style={`--n: ${i}`}>
                   <div class="hc-text">
                     <span class="hc-pill" data-reveal>Step {i + 1}</span>
-                    <h3 class="hc-h3" data-words style="--wd: 80ms"><Words text={t.title} /><br /><span class="muted"><Words text={t.more} start={titleWords} /></span></h3>
+                    <h3 class="hc-h3" data-words style="--wd: 80ms"><Words text={t.title} />{" "}<br /><span class="muted"><Words text={t.more} start={titleWords} /></span></h3>
                     <p class="body" style={`max-width: 440px; --d: ${after}ms`} data-reveal>{t.body}</p>
                     <div class="hc-cta" style={`--d: ${after + 60}ms`} data-reveal><a class="btn btn-primary" href={DEMO_URL}>Book a demo</a></div>
                   </div>
@@ -441,7 +451,7 @@ const structuredData = {
           <div class="hc-head">
             <div class="stack-12">
               <span class="kicker" data-reveal>How it works</span>
-              <h2 id="hb-h" class="t-title" data-words><Words text="From paper to Ravefort" /><br /><span class="muted"><Words text="in four steps" start={4} /></span></h2>
+              <h2 id="hb-h" class="t-title" data-words><Words text="From paper to Ravefort" />{" "}<br /><span class="muted"><Words text="in four steps" start={4} /></span></h2>
             </div>
             <p class="lead" style="max-width: 520px; --d: 350ms" data-reveal>Bring your diary, patients and recall into one place. Your whole team works from the same records. We go through each step with you on your demo.</p>
           </div>
@@ -483,7 +493,7 @@ const structuredData = {
           <div class="hb-head">
             <div class="stack-12">
               <span class="kicker" data-reveal>How it works</span>
-              <h2 id="hb-h" class="t-title" style="text-wrap: balance" data-words><Words text="From paper to Ravefort" /><br /><span class="muted"><Words text="in four steps" start={4} /></span></h2>
+              <h2 id="hb-h" class="t-title" style="text-wrap: balance" data-words><Words text="From paper to Ravefort" />{" "}<br /><span class="muted"><Words text="in four steps" start={4} /></span></h2>
             </div>
             <div class="hb-head-end">
               <p class="lead" style="max-width: 520px; --d: 350ms" data-reveal>Bring your diary, patients and recall into one place. Your whole team works from the same records. We go through each step with you on your demo.</p>
@@ -528,7 +538,7 @@ const structuredData = {
             <p class="sec-sub lead" data-reveal style="--d: 150ms">Something else on your mind? Ask us on your demo.</p>
           </div>
           <div class="faq-list">
-            {faq.map((f) => (
+            {answeredFaq.map((f) => (
               <details class="faq-item">
                 <summary>
                   <h3 class="t-heading-base">{f.q}</h3>
@@ -545,7 +555,7 @@ const structuredData = {
       <section id="demo" class="cta-sec" aria-labelledby="cta-h">
         <div class="wrap">
           <div class="cta-band theme-dark" data-reveal>
-            <h2 id="cta-h" class="t-display" style="max-width: 760px; text-wrap: balance; --wd: 150ms" data-words><Words text="You look after the patients." /><br /><span class="muted"><Words text="Ravefort brings more of them back." start={5} /></span></h2>
+            <h2 id="cta-h" class="t-display" style="max-width: 760px; text-wrap: balance; --wd: 150ms" data-words><Words text="You look after the patients." />{" "}<br /><span class="muted"><Words text="Ravefort brings more of them back." start={5} /></span></h2>
             <p class="lead" style="max-width: 560px; --d: 600ms" data-reveal>Your diary, records and recall list work together, so fewer patients slip away and more of them come back through your door.</p>
             <div class="cta-btns" data-reveal style="--d: 660ms">
               <a class="btn btn-primary" href={`mailto:${CONTACT_EMAIL}?subject=Ravefort%20demo`}>Book a demo</a>
@@ -561,7 +571,7 @@ const structuredData = {
         <div class="foot-cols">
           <div class="foot-brand stack-12">
             <a href="#top" class="brand" style="align-self: flex-start"><span class="logo" aria-hidden="true">R</span><span>Ravefort</span></a>
-            <p class="t-body-sm" style="max-width: 280px; color: var(--primary)">The clinic system that keeps track of every patient.</p>
+            <p class="t-body-sm" style="max-width: 280px; color: var(--primary)">Dental clinic software for Lagos, Abuja, Port Harcourt and the rest of Nigeria.</p>
           </div>
           <nav aria-labelledby="foot-product">
             <h2 id="foot-product" class="t-heading-sm">Product</h2>
