@@ -8,10 +8,13 @@ import MobileMenu from "./MobileMenu.astro";
 // (Landing-Hero-Ploy) and How it works version C, stacked cards (Landing-HowItWorks-C).
 // Version 3 uses "Hero with photo · C", text on a panel (Landing-Hero-Photo-C), and How it works
 // version D, picture left and steps right (Landing-HowItWorks-D).
+// Version 4 (Figma 258:9385 hero, 258:11101 step cards) is the homepage. Only the page passed
+// `indexed` is open to search; the rest point their canonical at / and carry noindex.
 interface Props {
   version?: 1 | 2 | 3 | 4;
+  indexed?: boolean;
 }
-const { version = 1 } = Astro.props;
+const { version = 1, indexed = false } = Astro.props;
 // ponytail: links still to confirm before launch: the demo booking link, the app's sign-in URL,
 // and Privacy/Terms pages.
 const DEMO_URL = "#demo";
@@ -183,7 +186,7 @@ const structuredData = {
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
-    {version !== 1 && <meta name="robots" content="noindex" />}
+    {!indexed && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={`${SITE}/`} />
     <link rel="alternate" hreflang="en-NG" href={`${SITE}/`} />
     <link rel="alternate" hreflang="x-default" href={`${SITE}/`} />
