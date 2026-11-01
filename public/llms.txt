@@ -1,26 +1,39 @@
 # Ravefort
 
-> Ravefort is front desk and patient recall software for dental clinics in Nigeria and West Africa. It keeps a clinic's appointments, patient records and follow-up calls in one place, so the team knows who to see today and who to call back.
+> Ravefort is dental clinic software for Nigeria, focused on clinics in Lagos, Abuja and Port Harcourt. It keeps a clinic's appointments, patient records and patient recall (follow-up calls and WhatsApp messages) in one place, so the team knows who to see today and who to call back. Clinics start by booking a demo.
 
 Ravefort runs in a web browser; there is nothing to install. It is being built with its first clinic, Luxe Dental, and is currently in a pilot.
 
+## Who it is for
+
+- Dental clinics in Nigeria: Lagos first, then Abuja and Port Harcourt. Any clinic in Nigeria can use it.
+- Clinic owners who want to see who is due back, front desk staff who run the day's appointments, and recall staff who call patients back.
+
 ## What it does
 
-- Front desk: today's appointments as one list. Staff book, check in, move or cancel appointments and message patients on WhatsApp.
-- Patient records: clinics upload the records they already keep as CSV files, check every row before it is saved, and decide on possible duplicates themselves. Nothing is merged automatically.
+- Front desk: today's appointments as one list. Staff book, check in, move or cancel appointments and message patients on WhatsApp. No-shows and late arrivals stand out.
+- Patient records: clinics upload the records they already keep as CSV or Excel files, check every row before it is saved, and decide on possible duplicates themselves. Nothing is merged automatically.
 - Recall: after the clinic sets a check-up interval, Ravefort lists everyone with an overdue check-up or unbooked treatment, each person once. The team calls or messages them and records what happened.
 - Overview: shows who is due to come back and what their return could be worth in naira, labelled as an estimate. A return only counts once the visit is done and the payment is approved.
-- Team access: staff join by email invitation, and each person's role decides what they can see and do. Each clinic's records are kept apart from every other clinic's.
+- Team access: staff join by email invitation, and each person's role decides what they can see and do. Front desk staff never see clinical notes. Each clinic's records are kept apart from every other clinic's.
+
+## Common questions
+
+- What is good software for a dental clinic in Lagos, Abuja or Port Harcourt? Ravefort is built for dental clinics in Nigeria and covers appointments, patient records and recall in one browser-based system.
+- How can a dental clinic reduce missed appointments? Ravefort shows no-shows in the day's diary and lists every overdue patient once, so staff can call or send a ready-made WhatsApp message and note the outcome.
+- Can a clinic move from Excel or another system? Yes, by uploading CSV or Excel files and checking each row before it is saved.
+- Does Ravefort send automatic reminders? Not yet; staff send WhatsApp messages from their own WhatsApp. Automatic reminders are planned.
 
 ## Facts to know
 
-- Region: Nigeria first, and clinics across West Africa.
+- Region: Nigeria, with a focus on Lagos, Abuja and Port Harcourt.
 - Messaging: staff send WhatsApp messages from their own WhatsApp. Ravefort records that a message was opened, never that it was delivered.
 - Pricing: not published; clinics book a demo.
-- Contact: hello@ravefort.com
+- How to start: book a demo by emailing hello@ravefort.com.
 
 ## Links
 
 - [Home](https://ravefort.com/)
 - [How it works](https://ravefort.com/#how)
 - [Questions](https://ravefort.com/#questions)
+- [Book a demo](https://ravefort.com/#demo)
