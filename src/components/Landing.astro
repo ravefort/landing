@@ -121,10 +121,11 @@ const favicon =
 const SITE = "https://ravefort.com";
 // Search: dental clinics in Nigeria, Lagos first, then Abuja and Port Harcourt. The goal is a demo.
 const CITIES = ["Lagos", "Abuja", "Port Harcourt"];
-// Titles cut off around 60 characters, snippets around 160.
-const title = "Dental Clinic Software in Lagos, Abuja & Port Harcourt | Ravefort";
+// Brand first, then the outcome, as Tebra and Practice by Numbers do. Titles cut off around 60
+// characters, snippets around 160; the cities live in the page, not the title.
+const title = "Ravefort | Dental Software That Brings Patients Back";
 const description =
-  "Appointments, patient records and recall for dental clinics in Lagos, Abuja and Port Harcourt. Bring patients back on WhatsApp. Book a demo.";
+  "Ravefort keeps your dental clinic’s appointments, records and recall list in one place, so no patient is forgotten. For clinics across Nigeria. Book a demo.";
 
 // What search engines and AI assistants read about the business and the product.
 const areaServed = [...CITIES.map((name) => ({ "@type": "City", name, containedInPlace: { "@type": "Country", name: "Nigeria" } })), { "@type": "Country", name: "Nigeria" }];
