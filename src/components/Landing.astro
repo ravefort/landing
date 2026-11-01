@@ -86,7 +86,8 @@ const v4Pictures = [
 ];
 const OPEN_STEP = 1;
 
-// ponytail: the two [NEED: …] answers are hidden until they're filled in.
+// ponytail: the set-up time [NEED: …] answer is hidden until it's filled in. Pricing isn't published
+// (no pricing page); it's covered on the demo.
 const faq = [
 // Questions are phrased the way clinic owners search and ask AI assistants, so answers can be quoted
 // as they are. They speak to clinics anywhere in Nigeria; the city focus stays in the footer and structured data.
@@ -99,7 +100,7 @@ const faq = [
   { q: "How is “could be worth” worked out?", a: "It’s an estimate, and always labelled as one. A return only counts once the visit is done and paid." },
   { q: "What’s coming next?", a: "Reports on who came back and which follow-ups worked, online booking and automatic reminders." },
   { q: "How long does set-up take?", a: "[NEED: typical set-up time.] We go through each step with you on your demo." },
-  { q: "How much does it cost?", a: "[NEED: pricing.] We’ll talk it through on your demo." },
+  { q: "How much does Ravefort cost?", a: "We don’t publish prices. We go through pricing with you on your demo, once we’ve seen how your clinic works." },
 ];
 // Answers still waiting on facts stay off the page and out of what search engines read.
 const answeredFaq = faq.filter((f) => !f.a.includes("[NEED"));
