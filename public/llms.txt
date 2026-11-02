@@ -1,12 +1,12 @@
 # Ravefort
 
-> Ravefort is dental clinic software for Nigeria, focused on clinics in Lagos, Abuja and Port Harcourt. It keeps a clinic's appointments, patient records and patient recall (follow-up calls and WhatsApp messages) in one place, so the team knows who to see today and who to call back. Clinics start by booking a demo.
+> Ravefort is clinic software for Nigeria, focused on clinics in Lagos, Abuja and Port Harcourt. It keeps a clinic's appointments, patient records and patient recall (follow-up calls and WhatsApp messages) in one place, so the team knows who to see today and who to call back. Clinics start by booking a demo.
 
 Ravefort runs in a web browser; there is nothing to install. It is being built with its first clinic, Luxe Dental, and is currently in a pilot.
 
 ## Who it is for
 
-- Dental clinics in Nigeria: Lagos first, then Abuja and Port Harcourt. Any clinic in Nigeria can use it.
+- Clinics in Nigeria: Lagos first, then Abuja and Port Harcourt. Any clinic in Nigeria can use it.
 - Clinic owners who want to see who is due back, front desk staff who run the day's appointments, and recall staff who call patients back.
 
 ## What it does
@@ -19,8 +19,8 @@ Ravefort runs in a web browser; there is nothing to install. It is being built w
 
 ## Common questions
 
-- What is good software for a dental clinic in Lagos, Abuja or Port Harcourt? Ravefort is built for dental clinics in Nigeria and covers appointments, patient records and recall in one browser-based system.
-- How can a dental clinic reduce missed appointments? Ravefort shows no-shows in the day's diary and lists every overdue patient once, so staff can call or send a ready-made WhatsApp message and note the outcome.
+- What is good software for a clinic in Lagos, Abuja or Port Harcourt? Ravefort is built for clinics in Nigeria and covers appointments, patient records and recall in one browser-based system.
+- How can a clinic reduce missed appointments? Ravefort shows no-shows in the day's diary and lists every overdue patient once, so staff can call or send a ready-made WhatsApp message and note the outcome.
 - Can a clinic move from Excel or another system? Yes, by uploading CSV or Excel files and checking each row before it is saved.
 - Does Ravefort send automatic reminders? Not yet; staff send WhatsApp messages from their own WhatsApp. Automatic reminders are planned.
 
