@@ -369,6 +369,7 @@ const structuredData = {
           ))}
         </div>
         <div class="wrap pc-navs">
+          <div class="pc-dots" aria-hidden="true">{people.map(() => <span class="pc-dot"></span>)}</div>
           <button type="button" class="pc-nav" data-dir="-1" aria-controls="who-row" aria-label="Previous">
             <svg style="transform: scaleX(-1)" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d={arrowPath}></path></svg>
           </button>
@@ -679,20 +680,24 @@ const structuredData = {
       }
 
       // Person cards: previous / next scroll by one card plus the gap, and switch off at either end.
+      // On phones one card fills the row, and the dots mark which one is showing.
       const row = document.getElementById("who-row")!;
       const navBtns = document.querySelectorAll<HTMLButtonElement>(".pc-nav");
+      const dots = document.querySelectorAll<HTMLElement>(".pc-dot");
+      const cardStep = () => {
+        const card = row.querySelector<HTMLElement>(".pc")!;
+        return card.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap);
+      };
       const updateEnds = () => {
         const max = row.scrollWidth - row.clientWidth;
         navBtns.forEach((b) => {
           b.disabled = b.dataset.dir === "-1" ? row.scrollLeft <= 1 : row.scrollLeft >= max - 1;
         });
+        const at = row.scrollLeft >= max - 1 ? dots.length - 1 : Math.round(row.scrollLeft / cardStep());
+        dots.forEach((d, i) => d.classList.toggle("is-on", i === at));
       };
       navBtns.forEach((b) =>
-        b.addEventListener("click", () => {
-          const card = row.querySelector<HTMLElement>(".pc")!;
-          const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap);
-          row.scrollBy({ left: Number(b.dataset.dir) * step });
-        }),
+        b.addEventListener("click", () => row.scrollBy({ left: Number(b.dataset.dir) * cardStep() })),
       );
       row.addEventListener("scroll", updateEnds, { passive: true });
       addEventListener("resize", updateEnds);
@@ -935,6 +940,9 @@ const structuredData = {
     transition: opacity 150ms var(--ease-in-out), background-color 150ms var(--ease-in-out), transform 150ms var(--ease-out);
   }
   .pc-nav:disabled { opacity: 0.4; cursor: default; }
+  .pc-dots { display: none; margin-right: auto; align-items: center; gap: 8px; }
+  .pc-dot { width: 8px; height: 8px; border-radius: var(--radius-pill); background: var(--border-strong); transition: width 200ms var(--ease-out), background-color 200ms var(--ease-out); }
+  .pc-dot.is-on { width: 20px; background: var(--foreground); }
 
   /* One system: six items */
   .fx-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--border); }
@@ -1171,7 +1179,9 @@ const structuredData = {
     .sec { padding: 64px 0; }
     .sec h2 { font-size: 24px; line-height: 32px; letter-spacing: -0.019em; }
     .pc-row { gap: 16px; padding: 0 16px; scroll-padding: 0 16px; }
-    .pc { flex-basis: 300px; min-height: 0; }
+    /* One whole card per swipe, so no card is cut off at the edge. */
+    .pc { flex-basis: 100%; min-height: 0; scroll-snap-stop: always; }
+    .pc-dots { display: flex; }
     .pc-text { padding: 24px 24px 0; }
     .pc-pic { padding: 24px; }
     .fx-grid { grid-template-columns: minmax(0, 1fr); }
