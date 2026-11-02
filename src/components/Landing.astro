@@ -92,8 +92,8 @@ const OPEN_STEP = 1;
 const faq = [
 // Questions are phrased the way clinic owners search and ask AI assistants, so answers can be quoted
 // as they are. They speak to clinics anywhere in Nigeria; the city focus stays in the footer and structured data.
-  { q: "Who is Ravefort for?", a: "Dental clinics in Nigeria. It suits any clinic that sees patients more than once and wants them to come back." },
-  { q: "Can any dental clinic in Nigeria use Ravefort?", a: "Yes. Ravefort runs in a web browser, so there’s nothing to install, wherever your clinic is. Book a demo and we’ll take you through it." },
+  { q: "Who is Ravefort for?", a: "Clinics in Nigeria. It suits any clinic that sees patients more than once and wants them to come back." },
+  { q: "Can any clinic in Nigeria use Ravefort?", a: "Yes. Ravefort runs in a web browser, so there’s nothing to install, wherever your clinic is. Book a demo and we’ll take you through it." },
   { q: "How does Ravefort reduce missed appointments?", a: "No-shows and late arrivals stand out in the day’s diary, and the recall list shows everyone who’s overdue, each person once. Your team sends a ready-made WhatsApp message or calls, then notes what happened. Automatic reminders are coming next." },
   { q: "Can we bring our patient records from Excel or another system?", a: "Yes. Upload them as CSV or Excel files and check every row before it’s saved. Nothing is merged without you deciding." },
   { q: "Does Ravefort message patients for us?", a: "Not yet. Your team opens a ready-made WhatsApp message or calls, then notes what happened on the patient’s record." },
@@ -124,13 +124,13 @@ const favicon =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#171717"/><text x="12" y="17" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#fafafa">R</text></svg>',
   );
 const SITE = "https://ravefort.com";
-// Search: dental clinics in Nigeria, Lagos first, then Abuja and Port Harcourt. The goal is a demo.
+// Search: clinics in Nigeria, Lagos first, then Abuja and Port Harcourt. The goal is a demo.
 const CITIES = ["Lagos", "Abuja", "Port Harcourt"];
-// Brand first, then the outcome, as Tebra and Practice by Numbers do. Titles cut off around 60
-// characters, snippets around 160; the cities live in the page, not the title.
-const title = "Ravefort | Dental Software That Brings Patients Back";
+// The brand, then what it is and who it's for. The description opens by naming the platform.
+// Titles cut off around 60 characters, snippets around 160; the cities live in the page.
+const title = "Ravefort - Clinic Operations Software";
 const description =
-  "Ravefort keeps your dental clinic’s appointments, records and recall list in one place, so no patient is forgotten. For clinics across Nigeria. Book a demo.";
+  "Ravefort is the clinic operations platform for Nigeria. Run your diary, patient records and recall in one place, so no patient is lost. Book a demo.";
 
 // What search engines and AI assistants read about the business and the product.
 const areaServed = [...CITIES.map((name) => ({ "@type": "City", name, containedInPlace: { "@type": "Country", name: "Nigeria" } })), { "@type": "Country", name: "Nigeria" }];
@@ -160,12 +160,12 @@ const structuredData = {
       url: SITE,
       description: heroSub,
       applicationCategory: "BusinessApplication",
-      applicationSubCategory: "Dental practice management",
-      keywords: "dental clinic software, dental practice management software, patient recall, appointment booking, WhatsApp patient messages, Lagos, Abuja, Port Harcourt, Nigeria",
+      applicationSubCategory: "Clinic management",
+      keywords: "clinic software, clinic management software, patient management software, patient recall, appointment booking, WhatsApp patient messages, Lagos, Abuja, Port Harcourt, Nigeria",
       potentialAction: { "@type": "ScheduleAction", name: "Book a demo", target: `mailto:${CONTACT_EMAIL}?subject=Ravefort%20demo` },
       operatingSystem: "Web browser",
       areaServed,
-      audience: { "@type": "BusinessAudience", audienceType: "Dental clinics in Lagos, Abuja, Port Harcourt and across Nigeria", geographicArea: areaServed },
+      audience: { "@type": "BusinessAudience", audienceType: "Clinics in Lagos, Abuja, Port Harcourt and across Nigeria", geographicArea: areaServed },
       featureList: features.map((f) => `${f.title}: ${f.body}`),
       publisher: { "@id": `${SITE}/#organization` },
     },
@@ -208,14 +208,14 @@ const structuredData = {
     <meta property="og:url" content={`${SITE}/`} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${SITE}/og.png`} />
+    <meta property="og:image" content={`${SITE}/og.jpg`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Ravefort: dental software that brings patients back. Appointments, patient records and recall for clinics in Nigeria." />
+    <meta property="og:image:alt" content="Ravefort: the clinic operations suite for teams who can’t afford to lose a patient. A clinician working at her laptop in a sunlit clinic." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${SITE}/og.png`} />
+    <meta name="twitter:image" content={`${SITE}/og.jpg`} />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href={favicon} />
@@ -572,7 +572,7 @@ const structuredData = {
         <div class="foot-cols">
           <div class="foot-brand stack-12">
             <a href="#top" class="brand" style="align-self: flex-start"><span class="logo" aria-hidden="true">R</span><span>Ravefort</span></a>
-            <p class="t-body-sm" style="max-width: 280px; color: var(--primary)">Dental clinic software for Lagos, Abuja, Port Harcourt and the rest of Nigeria.</p>
+            <p class="t-body-sm" style="max-width: 280px; color: var(--primary)">Clinic software for Lagos, Abuja, Port Harcourt and the rest of Nigeria.</p>
           </div>
           <nav aria-labelledby="foot-product">
             <h2 id="foot-product" class="t-heading-sm">Product</h2>

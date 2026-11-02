@@ -6,7 +6,7 @@ import "../styles/base.css";
 interface Props {
   title: string; // the page's search title
   description: string;
-  path: string; // e.g. "/guides/reduce-missed-dental-appointments/"
+  path: string; // e.g. "/guides/reduce-missed-clinic-appointments/"
   // An article; leave out on the guides index.
   article?: { headline: string; published: string; modified?: string; faq?: { q: string; a: string }[] };
 }
@@ -36,10 +36,10 @@ if (article) {
     inLanguage: "en-NG",
     datePublished: article.published,
     dateModified: article.modified ?? article.published,
-    image: `${SITE}/og.png`,
+    image: `${SITE}/og.jpg`,
     author: { "@type": "Organization", name: "Ravefort", url: SITE },
     publisher: { "@type": "Organization", name: "Ravefort", url: SITE, email: CONTACT_EMAIL },
-    about: ["Dental clinics", "Missed appointments", "Patient recall", "Nigeria"],
+    about: ["Clinics", "Missed appointments", "Patient recall", "Nigeria"],
   });
   if (article.faq?.length)
     graph.push({
@@ -71,7 +71,7 @@ const favicon =
     <meta property="og:title" content={article?.headline ?? title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={url} />
-    <meta property="og:image" content={`${SITE}/og.png`} />
+    <meta property="og:image" content={`${SITE}/og.jpg`} />
     <meta name="twitter:card" content="summary_large_image" />
     {article && <meta property="article:published_time" content={article.published} />}
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
@@ -96,7 +96,7 @@ const favicon =
 
     <footer class="g-foot">
       <div class="wrap g-foot-row">
-        <p class="t-body-sm muted">Ravefort · Dental clinic software for Lagos, Abuja, Port Harcourt and the rest of Nigeria.</p>
+        <p class="t-body-sm muted">Ravefort · Clinic software for Lagos, Abuja, Port Harcourt and the rest of Nigeria.</p>
         <p class="t-body-sm"><a href="/">Home</a> · <a href="/guides/">Guides</a> · <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
       </div>
     </footer>
