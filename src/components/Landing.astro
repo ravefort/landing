@@ -22,6 +22,8 @@ const CONTACT_EMAIL = "hello@ravefort.com";
 const TALK_URL = `mailto:${CONTACT_EMAIL}`;
 // Empty hides the Sign in links until the app has a public address.
 const SIGN_IN_URL = "";
+// Empty hides the Try now buttons until the app has a public sign-up address.
+const TRY_URL = "";
 // Empty hides the Legal column until the pages exist.
 const PRIVACY_URL = "";
 const TERMS_URL = "";
@@ -232,8 +234,9 @@ const structuredData = {
         </div>
         <div class="nav-end">
           {SIGN_IN_URL && <a href={SIGN_IN_URL} class="nav-signin">Sign in</a>}
+          {TRY_URL && <a href={TRY_URL} class="btn btn-outline btn-sm">Try now</a>}
           <a href={DEMO_URL} class="btn btn-primary btn-sm">Book a demo</a>
-          {version === 4 && <MobileMenu links={navLinks} demoUrl={DEMO_URL} />}
+          {version === 4 && <MobileMenu links={navLinks} demoUrl={DEMO_URL} tryUrl={TRY_URL} />}
         </div>
       </nav>
     </header>
@@ -250,6 +253,7 @@ const structuredData = {
               <p class="hero-in" style="--i: 0">Your front desk, recall team and clinicians share one record for every patient, so patients don’t have to repeat themselves and you can see who needs attention.</p>
               <div class="v4-hero-buttons hero-in" style="--i: 1">
                 <a class="btn btn-primary" href={DEMO_URL}>Book a demo</a>
+                {TRY_URL && <a class="btn v4-talk" href={TRY_URL}>Try now</a>}
                 <a class="btn v4-talk" href={TALK_URL}>Talk to us</a>
               </div>
             </div>
@@ -1267,7 +1271,7 @@ const structuredData = {
   /* Balanced lines, so no single word is left alone on the last line. */
   .v4-hero h1 { max-width: 720px; font: 400 60px/72px "Newsreader", Georgia, serif; letter-spacing: -1.2px; text-wrap: balance; }
   .v4-hero p { max-width: 546px; font-size: 18px; line-height: 28px; }
-  .v4-hero-buttons { display: flex; gap: 12px; padding-top: 8px; }
+  .v4-hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px; }
   .v4-talk { background: #fff; color: #0a0a0a; border: 1px solid #e5e5e5; }
   /* The bar is out of view while you scroll down through the stack, so card 1 sticks 24px from the very top. */
   .v4 .hc-card { height: 560px; --nav-h: 0px; }

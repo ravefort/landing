@@ -5,8 +5,9 @@ import ArrowUpRight from "../assets/gravity/arrow-up-right.svg";
 interface Props {
   links: string[][];
   demoUrl: string;
+  tryUrl?: string;
 }
-const { links, demoUrl } = Astro.props;
+const { links, demoUrl, tryUrl } = Astro.props;
 ---
 
 <button class="menu-trigger" type="button" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
@@ -21,7 +22,7 @@ const { links, demoUrl } = Astro.props;
   <nav class="menu-links" aria-label="Mobile">
     {links.map(([href, label], i) => <a href={href} style={`--menu-delay: ${i * 40}ms`}>{label}<ArrowUpRight width="20" height="20" aria-hidden="true" /></a>)}
   </nav>
-  <div class="menu-bottom"><a class="menu-demo" href={demoUrl}>Book a demo</a></div>
+  <div class="menu-bottom">{tryUrl && <a class="menu-demo menu-try" href={tryUrl}>Try now</a>}<a class="menu-demo" href={demoUrl}>Book a demo</a></div>
 </dialog>
 
 <script>
@@ -69,8 +70,9 @@ const { links, demoUrl } = Astro.props;
   @starting-style {
     .menu-sheet[open] .menu-links a { opacity: 0; transform: translateY(8px); }
   }
-  .menu-bottom { flex: none; padding: 24px 16px max(16px, env(safe-area-inset-bottom)); background: #fff; }
+  .menu-bottom { flex: none; display: grid; gap: 12px; padding: 24px 16px max(16px, env(safe-area-inset-bottom)); background: #fff; }
   .menu-demo { display: flex; align-items: center; justify-content: center; min-height: 44px; border-radius: var(--radius-pill); background: #171717; color: #fafafa; font: 500 16px/24px var(--font-sans); }
+  .menu-try { background: #fff; color: #171717; border: 1px solid #e5e5e5; }
   :global(html:has(.menu-sheet[open])) { overflow: hidden; }
   :global(html.js .v4 .nav-end > .btn-sm) { display: inline-flex; }
   @media (max-width: 760px) {
