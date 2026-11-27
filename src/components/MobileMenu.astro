@@ -63,7 +63,7 @@ const { links, demoUrl, loginUrl } = Astro.props;
     .menu-sheet[open] .menu-icon-x { opacity: 0; transform: rotate(-45deg); }
   }
   .menu-links { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 16px; }
-  .menu-links a { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--border); color: #171717; font: 500 16px/24px var(--font-sans); }
+  .menu-links a { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--border); color: #171717; font: 500 1em/1.5 var(--font-sans); }
   .menu-links a svg { flex: none; color: var(--muted-foreground); }
   .menu-links a { opacity: 0; transform: translateY(8px); transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out); }
   .menu-sheet[open] .menu-links a { opacity: 1; transform: translateY(0); transition-duration: 240ms; transition-delay: var(--menu-delay, 160ms); }
@@ -71,7 +71,7 @@ const { links, demoUrl, loginUrl } = Astro.props;
     .menu-sheet[open] .menu-links a { opacity: 0; transform: translateY(8px); }
   }
   .menu-bottom { flex: none; display: grid; gap: 12px; padding: 24px 16px max(16px, env(safe-area-inset-bottom)); background: #fff; }
-  .menu-demo { display: flex; align-items: center; justify-content: center; min-height: 44px; border-radius: var(--radius-pill); background: #171717; color: #fafafa; font: 500 16px/24px var(--font-sans); }
+  .menu-demo { display: flex; align-items: center; justify-content: center; min-height: 44px; border-radius: var(--radius-pill); background: #171717; color: #fafafa; font: 500 1em/1.5 var(--font-sans); }
   .menu-login { background: #fff; color: #171717; border: 1px solid #e5e5e5; }
   :global(html:has(.menu-sheet[open])) { overflow: hidden; }
   :global(html.js .v4 .nav-end > .btn-sm) { display: inline-flex; }
