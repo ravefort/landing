@@ -1315,6 +1315,11 @@ const structuredData = {
     /* Mobile type scale: the intro is 18/28 and each step title (H5, 20/30) sits below the section heading (24/32). */
     .v4 #how .lead { font-size: 18px; line-height: 28px; }
     .v4 .hc-h3 { font-size: 20px; line-height: 30px; letter-spacing: -0.017em; }
+    /* The card fits its content here, so the desktop spacing that pins the button to the bottom is dropped:
+       pill → title 16px, title → body 8px, body → button 24px. */
+    .v4 .hc-text { gap: 8px; }
+    .v4 .hc-pill { margin-bottom: 8px; }
+    .v4 .hc-cta { padding-top: 16px; }
   }
 
 </style>
