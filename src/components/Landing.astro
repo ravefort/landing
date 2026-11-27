@@ -80,11 +80,12 @@ const steps: { title: string; body: string; src?: string; alt?: string; note?: s
   { title: "Set up recall", body: "Ravefort works out who’s due back, so no patient gets forgotten.", src: "/shots/recall.webp", alt: "The Recall board: patients due back sorted into to call, calling, call back and booked", more: "and see who’s due back" },
   { title: "Invite your team", body: "Everyone works from the same records and sees only what their role allows.", src: "/shots/team.webp", alt: "Team & access: each member with their role and status", more: "each with the right access" },
 ];
+// Each step's video carries its own background, fills the whole picture panel and plays as a muted loop.
 const v4Pictures = [
-  { name: "setup", alt: "Welcome to Ravefort: your clinic is ready, with patients and team invited.", x: 117.27, y: 80, w: 412.211, h: 367.125 },
-  { name: "import", alt: "Patient import review with ready, needs a fix and possible duplicate statuses.", x: 25.27, y: 127, w: 593.333, h: 267 },
-  { name: "recall", alt: "Recall funnel showing patients due, contacted, booked and returned.", x: 81.27, y: 47, w: 484, h: 433.287 },
-  { name: "team", alt: "Invite your team by work email and assign Manager, Recall or Clinician access.", x: 76.27, y: 30, w: 493, h: 468 },
+  { video: "/shots/welcome.mp4", alt: "Welcome to Ravefort: your clinic is ready, with patients and team invited." },
+  { video: "/shots/import-records.mp4", alt: "Patient files uploading, then the import review marking each record ready, needs a fix or possible duplicate." },
+  { video: "/shots/recall-funnel.mp4", alt: "Recall funnel showing patients due, contacted, booked and came back." },
+  { video: "/shots/invite-team.mp4", alt: "Invite your team by work email and give each person their access." },
 ];
 const OPEN_STEP = 1;
 
@@ -427,8 +428,7 @@ const structuredData = {
                   </div>
                   {version === 4 ? (
                     <div class="v4-step-picture">
-                      <img class={`v4-step-background v4-step-background-${i}`} src={`/v4/${v4Pictures[i].name}-background.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-                      <img class="v4-step-shot" src={`/v4/${v4Pictures[i].name}.webp`} alt={v4Pictures[i].alt} loading="lazy" decoding="async" data-reveal style={`left: ${v4Pictures[i].x / 647.273 * 100}%; top: ${v4Pictures[i].y / 528 * 100}%; width: ${v4Pictures[i].w / 647.273 * 100}%; height: ${v4Pictures[i].h / 528 * 100}%; --d: 150ms`} />
+                      <video class="v4-step-video" src={v4Pictures[i].video} aria-label={v4Pictures[i].alt} autoplay muted loop playsinline disablepictureinpicture preload="auto"></video>
                     </div>
                   ) : <div class="hc-pic" aria-hidden={t.src ? undefined : "true"}>
                     {t.src ? (
@@ -1296,13 +1296,7 @@ const structuredData = {
   /* The bar is out of view while you scroll down through the stack, so card 1 sticks 24px from the very top. */
   .v4 .hc-card { height: 560px; --nav-h: 0px; }
   .v4-step-picture { position: relative; margin: 16px 16px 16px 0; border-radius: var(--radius-card); overflow: hidden; background: #fff; }
-  .v4-step-background, .v4-step-shot { position: absolute; max-width: none; }
-  .v4-step-background-0 { left: -1.812%; top: -44.508%; width: 103.357%; height: 253.409%; }
-  .v4-step-background-1 { left: -45.811%; top: -14.678%; width: 187.09%; height: 128.03%; transform: rotate(90deg); transform-origin: center; }
-  .v4-step-background-2 { left: -4.13%; top: -32.86%; width: 108.15%; height: 165.72%; }
-  .v4-step-background-3 { left: -7.837%; top: -78.977%; width: 111.237%; height: 253.598%; }
-  .v4-step-background { object-fit: cover; }
-  .v4-step-shot { object-fit: fill; }
+  .v4-step-video { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
   @container (max-width: 1100px) and (min-width: 761px) {
     .v4 .hc-text { padding: 32px; }
     .v4 .hc-h3 { font-size: 28px; line-height: 34px; }
