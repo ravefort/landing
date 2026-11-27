@@ -30,16 +30,16 @@ const TERMS_URL = "";
 
 const heroH = "Never lose track of a patient again";
 const heroSub =
-  "Ravefort is the clinic system that puts your diary, patient records and recall list in one place, so your team always knows who’s due back and nobody falls through the cracks.";
+  "Ravefort is the clinic system that puts your appointments, patient records and recall list in one place, so your team always knows who’s due back and nobody falls through the cracks.";
 const heroSubPhoto =
-  "Ravefort puts your diary, patient records and recall list in one place, so your team always knows who’s due back.";
+  "Ravefort puts your appointments, patient records and recall list in one place, so your team always knows who’s due back.";
 
 type Pill = { label: string; c: string };
 const people: { title: string; body: string }[] = [
-  { title: "Clinic owner", body: "See who’s due back and what their return could be worth. Reports are coming next." },
+  { title: "Clinic owner", body: "See how many patients are due back this month and what their visits could be worth, without asking the front desk." },
   { title: "Front desk", body: "See today’s patients on one screen, and book, check in or move them in a click." },
   { title: "Recall team", body: "Know who’s due back and what happened on the last call, so nobody is called twice." },
-  { title: "Your team", body: "Give each person a role, and they only see what that role allows." },
+  { title: "Clinic admin", body: "Invite staff and give each person a role. They only see what that role allows, so front desk staff never see clinical notes." },
 ];
 const deskRows: { time: string; name: string; pill: Pill }[] = [
   { time: "09:00", name: "Ngozi Adeyemi", pill: { label: "Checked in", c: "status-arrived" } },
@@ -65,7 +65,7 @@ const icons = {
   shield: { rule: "evenodd", d: "m3.003 4.702 4.22-2.025a1.8 1.8 0 0 1 1.554 0l4.22 2.025a.89.89 0 0 1 .503.8V6a8.55 8.55 0 0 1-3.941 7.201l-.986.631a1.06 1.06 0 0 1-1.146 0l-.986-.63A8.55 8.55 0 0 1 2.5 6v-.498c0-.341.196-.652.503-.8m3.57-3.377L2.354 3.35A2.39 2.39 0 0 0 1 5.502V6a10.05 10.05 0 0 0 4.632 8.465l.986.63a2.56 2.56 0 0 0 2.764 0l.986-.63A10.05 10.05 0 0 0 15 6v-.498c0-.918-.526-1.755-1.354-2.152l-4.22-2.025a3.3 3.3 0 0 0-2.852 0M11.1 6.45a.75.75 0 1 0-1.2-.9L7.419 8.858 6.03 7.47a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.13-.08z" },
 };
 const features = [
-  { icon: icons.calendar, title: "Appointments", body: "Book, check in, move or cancel from one shared diary. Late arrivals and no-shows stand out on their own." },
+  { icon: icons.calendar, title: "Appointments", body: "Book, check in, move or cancel from one shared schedule. Late arrivals and no-shows stand out on their own." },
   { icon: icons.person, title: "Patient records", body: "One record for each person, with their visits, bookings and payments. Find anyone by name or phone number." },
   { icon: icons.recall, title: "Recall list", body: "Set how often patients should come back, once. Ravefort lists who’s due, each person once, and every call is noted." },
   { icon: icons.whatsapp, title: "WhatsApp messages", body: "Open a ready-made message to the patient in WhatsApp. Then note what happened on their record." },
@@ -96,13 +96,16 @@ const faq = [
 // as they are. They speak to clinics anywhere in Nigeria; the city focus stays in the footer and structured data.
   { q: "Who is Ravefort for?", a: "Clinics in Nigeria. It suits any clinic that sees patients more than once and wants them to come back." },
   { q: "Can any clinic in Nigeria use Ravefort?", a: "Yes. Ravefort runs in a web browser, so there’s nothing to install, wherever your clinic is. Book a demo and we’ll take you through it." },
-  { q: "How does Ravefort reduce missed appointments?", a: "No-shows and late arrivals stand out in the day’s diary, and the recall list shows everyone who’s overdue, each person once. Your team sends a ready-made WhatsApp message or calls, then notes what happened. Automatic reminders are coming next." },
+  { q: "How does Ravefort reduce missed appointments?", a: "No-shows and late arrivals stand out in the day’s schedule, and the recall list shows everyone who’s overdue, each person once. Your team sends a ready-made WhatsApp message or calls, then notes what happened. Automatic reminders are coming next." },
   { q: "Can we bring our patient records from Excel or another system?", a: "Yes. Upload them as CSV or Excel files and check every row before it’s saved. Nothing is merged without you deciding." },
   { q: "Does Ravefort message patients for us?", a: "Not yet. Your team opens a ready-made WhatsApp message or calls, then notes what happened on the patient’s record." },
   { q: "Who can see our patients’ information?", a: "Only the people you invite, and only what their role allows. Your records are kept apart from every other clinic’s." },
   { q: "How is “could be worth” worked out?", a: "It’s an estimate, and always labelled as one. A return only counts once the visit is done and paid." },
   { q: "What’s coming next?", a: "Reports on who came back and which follow-ups worked, online booking and automatic reminders." },
   { q: "How long does set-up take?", a: "[NEED: typical set-up time.] We go through each step with you on your demo." },
+  { q: "Do my staff need training to use Ravefort?", a: "[NEED: what training or onboarding staff get, and how long it takes.]" },
+  { q: "Can we use Ravefort on a phone?", a: "[NEED: confirm whether the app works well in a phone browser.]" },
+  { q: "What happens if our internet goes down?", a: "[NEED: what staff can still do offline, and what syncs when the connection is back.]" },
   { q: "How much does Ravefort cost?", a: "We don’t publish prices. We go through pricing with you on your demo, once we’ve seen how your clinic works." },
 ];
 // Answers still waiting on facts stay off the page and out of what search engines read.
@@ -132,7 +135,7 @@ const CITIES = ["Lagos", "Abuja", "Port Harcourt"];
 // Titles cut off around 60 characters, snippets around 160; the cities live in the page.
 const title = "Ravefort - Clinic Operations Software";
 const description =
-  "Ravefort is the clinic operations platform for Nigeria. Run your diary, patient records and recall in one place, so no patient is lost. Book a demo.";
+  "Ravefort is the clinic operations platform for Nigeria. Run your appointments, patient records and recall in one place, so no patient is lost. Book a demo.";
 
 // What search engines and AI assistants read about the business and the product.
 const areaServed = [...CITIES.map((name) => ({ "@type": "City", name, containedInPlace: { "@type": "Country", name: "Nigeria" } })), { "@type": "Country", name: "Nigeria" }];
@@ -213,7 +216,7 @@ const structuredData = {
     <meta property="og:image" content={`${SITE}/og.jpg`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Ravefort: the clinic operations suite for teams who can’t afford to lose a patient. A clinician working at her laptop in a sunlit clinic." />
+    <meta property="og:image:alt" content="Ravefort: know who’s due back, and that someone has called them. A clinician working at her laptop in a sunlit clinic." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -250,8 +253,8 @@ const structuredData = {
               <img src="/photos/hero-clinic-2400.webp" srcset="/photos/hero-clinic-1280.webp 1280w, /photos/hero-clinic-2400.webp 2400w" sizes="100vw" width="2400" height="1340" fetchpriority="high" alt="A clinician in a white coat working at her laptop in a sunlit clinic." />
             </div>
             <div class="wrap v4-hero-content">
-              <h1 id="hero-h"><Words text="The clinic operations suite for teams who can’t afford to lose a patient." /></h1>
-              <p class="hero-in" style="--i: 0">Your front desk, recall team and clinicians share one record for every patient, so patients don’t have to repeat themselves and you can see who needs attention.</p>
+              <h1 id="hero-h"><Words text="Know who’s due back, and that someone has called them." /></h1>
+              <p class="hero-in" style="--i: 0">Ravefort keeps your appointments, patient records and recall list in one place. Your front desk books, your recall team follows up on WhatsApp or by phone, and you see it all without having to ask.</p>
               <div class="v4-hero-buttons hero-in" style="--i: 1">
                 <a class="btn btn-primary" href={DEMO_URL}>Book a demo</a>
               </div>
@@ -313,8 +316,8 @@ const structuredData = {
 
       <section id="who" class="sec" aria-labelledby="who-h">
         <div class="wrap">
-          <h2 id="who-h" class="t-title" data-words><Words text="Five places your patients get lost, now one." /></h2>
-          <p class="t-title sec-sub muted" data-words><Words text="Clear for the owner. Simple for the front desk." start={8} /></p>
+          <h2 id="who-h" class="t-title" data-words><Words text="Everyone in your clinic sees what they need." /></h2>
+          <p class="sec-sub lead" data-reveal style="max-width: 640px; --d: 300ms">Each person gets a view of the part of the clinic they run, from the owner checking who’s due back to the front desk running today’s appointments and the recall team working through who to call.</p>
         </div>
         <div class="pc-row" id="who-row" data-reveal-group style="--stagger: 50ms; --d: 250ms">
           {people.map((p, i) => (
@@ -385,8 +388,8 @@ const structuredData = {
       <section id="product" class="sec sec-tint" aria-labelledby="product-h">
         <div class="wrap stack-48">
           <div class="stack-4">
-            <h2 id="product-h" class="t-title" data-words><Words text="One system for the whole clinic" /></h2>
-            <p class="sec-sub lead" data-reveal style="--d: 300ms">Appointments, patients and recall, working from the same records.</p>
+            <h2 id="product-h" class="t-title" data-words><Words text="Six tools, one patient record" /></h2>
+            <p class="sec-sub lead" data-reveal style="--d: 300ms">Appointments, records and recall all read from the same patient, so nobody keeps a second list in a notebook or on their phone.</p>
           </div>
           <div class="fx-grid" data-reveal-group style="--stagger: 40ms; --d: 250ms">
             {features.map((f, i) => (
@@ -408,9 +411,9 @@ const structuredData = {
           <div class="hc-head">
             <div class="stack-12">
               <span class="kicker" data-reveal>How it works</span>
-              <h2 id="hb-h" class="t-title" data-words><Words text="From paper to Ravefort" />{" "}<br /><span class="muted"><Words text="in four steps" start={4} /></span></h2>
+              <h2 id="hb-h" class="t-title" data-words><Words text="From scattered records to Ravefort" />{" "}<br /><span class="muted"><Words text="in four steps" start={5} /></span></h2>
             </div>
-            <p class="lead" style="max-width: 520px; --d: 350ms" data-reveal>Bring your diary, patients and recall into one place. Your whole team works from the same records. We go through each step with you on your demo.</p>
+            <p class="lead" style="max-width: 600px; --d: 350ms" data-reveal>Today your patients live in folders, notebooks and WhatsApp chats. On your demo, we bring them into Ravefort with you, checking every record before it’s saved.</p>
           </div>
           <!-- After Clay: each step card sticks under the top bar and the next one slides over it. -->
           <div class="hc-stack">
@@ -454,9 +457,9 @@ const structuredData = {
           <div class="hc-head">
             <div class="stack-12">
               <span class="kicker" data-reveal>How it works</span>
-              <h2 id="hb-h" class="t-title" data-words><Words text="From paper to Ravefort" />{" "}<br /><span class="muted"><Words text="in four steps" start={4} /></span></h2>
+              <h2 id="hb-h" class="t-title" data-words><Words text="From scattered records to Ravefort" />{" "}<br /><span class="muted"><Words text="in four steps" start={5} /></span></h2>
             </div>
-            <p class="lead" style="max-width: 520px; --d: 350ms" data-reveal>Bring your diary, patients and recall into one place. Your whole team works from the same records. We go through each step with you on your demo.</p>
+            <p class="lead" style="max-width: 520px; --d: 350ms" data-reveal>Today your patients live in folders, notebooks and WhatsApp chats. On your demo, we bring them into Ravefort with you, checking every record before it’s saved.</p>
           </div>
           <!-- After Intercom: the picture on the left, the steps on the right. The open step sits on a grey block
                with a line along its top, and the picture's panel takes a grey of its own per step. -->
@@ -496,10 +499,10 @@ const structuredData = {
           <div class="hb-head">
             <div class="stack-12">
               <span class="kicker" data-reveal>How it works</span>
-              <h2 id="hb-h" class="t-title" style="text-wrap: balance" data-words><Words text="From paper to Ravefort" />{" "}<br /><span class="muted"><Words text="in four steps" start={4} /></span></h2>
+              <h2 id="hb-h" class="t-title" style="text-wrap: balance" data-words><Words text="From scattered records to Ravefort" />{" "}<br /><span class="muted"><Words text="in four steps" start={5} /></span></h2>
             </div>
             <div class="hb-head-end">
-              <p class="lead" style="max-width: 520px; --d: 350ms" data-reveal>Bring your diary, patients and recall into one place. Your whole team works from the same records. We go through each step with you on your demo.</p>
+              <p class="lead" style="max-width: 520px; --d: 350ms" data-reveal>Today your patients live in folders, notebooks and WhatsApp chats. On your demo, we bring them into Ravefort with you, checking every record before it’s saved.</p>
               <a class="btn btn-primary" href={DEMO_URL} data-reveal style="--d: 410ms">Book a demo</a>
             </div>
           </div>
@@ -559,7 +562,7 @@ const structuredData = {
         <div class="wrap">
           <div class="cta-band theme-dark" data-reveal>
             <h2 id="cta-h" class="t-display" style="max-width: 760px; text-wrap: balance; --wd: 150ms" data-words><Words text="You look after the patients." />{" "}<br /><span class="muted"><Words text="Ravefort brings more of them back." start={5} /></span></h2>
-            <p class="lead" style="max-width: 560px; --d: 600ms" data-reveal>Your diary, records and recall list work together, so fewer patients slip away and more of them come back through your door.</p>
+            <p class="lead" style="max-width: 560px; --d: 600ms" data-reveal>Your appointments, records and recall list work together, so fewer patients slip away and more of them come back through your door.</p>
             <div class="cta-btns" data-reveal style="--d: 660ms">
               <a class="btn btn-primary" href={`mailto:${CONTACT_EMAIL}?subject=Ravefort%20demo`}>Book a demo</a>
               <a class="btn btn-outline" href={TALK_URL}>Talk to us</a>
@@ -574,8 +577,7 @@ const structuredData = {
         <div class="foot-cols">
           <div class="foot-brand stack-12">
             <a href="#top" class="brand" style="align-self: flex-start"><span class="logo" aria-hidden="true">R</span><span>Ravefort</span></a>
-            <p class="t-body-sm" style="max-width: 280px; color: var(--primary)">Clinic software for Lagos, Abuja, Port Harcourt and the rest of Nigeria.</p>
-          </div>
+            <p class="t-body-sm" style="max-width: 320px; color: var(--primary)">Ravefort is clinic operations software for clinics in Nigeria. We bring your appointments, patient records and recall into one place, so your team works from the same records and fewer patients slip away.</p>          </div>
           <nav aria-labelledby="foot-product">
             <h2 id="foot-product" class="t-heading-sm">Product</h2>
             <ul><li><a href="#product">Appointments</a></li><li><a href="#product">Patient records</a></li><li><a href="#product">Recall</a></li><li><a href="#product">Team access</a></li></ul>
@@ -1234,6 +1236,7 @@ const structuredData = {
   .v4 .nav { background: transparent; border-bottom: 0; }
   .v4 .nav-row { height: 88px; justify-content: space-between; }
   .v4 .brand { color: #fafafa; }
+  .v4 .footer .brand { color: var(--primary); }
   .v4 .brand span:last-child { font-size: 20px; line-height: 28px; font-weight: 700; letter-spacing: -.4px; }
   /* Liquid glass, after iOS 26: the pill blurs what is behind it and lifts its colour rather than
      washing it out, carries a light tint that is brighter at the top, a bright rim with a specular
