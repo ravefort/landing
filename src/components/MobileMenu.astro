@@ -43,7 +43,7 @@ const { links, demoUrl, loginUrl } = Astro.props;
 </script>
 
 <style>
-  .menu-trigger, .menu-close { width: 44px; height: 44px; flex: none; position: relative; display: grid; place-items: center; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
+  .menu-trigger, .menu-close { width: 3.3em; height: 3.3em; flex: none; position: relative; display: grid; place-items: center; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
   .menu-trigger { display: none; }
   .menu-demo { transition: transform 150ms var(--ease-out); }
   .menu-demo:active { transform: scale(.97); }
@@ -51,9 +51,9 @@ const { links, demoUrl, loginUrl } = Astro.props;
   .menu-sheet[open] { display: flex; flex-direction: column; opacity: 1; }
   @starting-style { .menu-sheet[open] { opacity: 0; } }
   .menu-sheet::backdrop { background: transparent; }
-  .menu-head { height: 88px; flex: none; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+  .menu-head { height: 5.5em; flex: none; padding: 0 1em; display: flex; align-items: center; justify-content: space-between; gap: 2em; }
   .menu-head .menu-brand { color: #171717; }
-  .menu-close svg { position: absolute; inset: 10px; transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); }
+  .menu-close svg { position: absolute; inset: .75em; transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); }
   .menu-close .menu-icon-bars { opacity: 1; transform: rotate(0); }
   .menu-close .menu-icon-x { opacity: 0; transform: rotate(-45deg); }
   .menu-sheet[open] .menu-icon-bars { opacity: 0; transform: rotate(45deg); }
@@ -62,16 +62,16 @@ const { links, demoUrl, loginUrl } = Astro.props;
     .menu-sheet[open] .menu-icon-bars { opacity: 1; transform: rotate(0); }
     .menu-sheet[open] .menu-icon-x { opacity: 0; transform: rotate(-45deg); }
   }
-  .menu-links { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 16px; }
-  .menu-links a { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--border); color: #171717; font: 500 1em/1.5 var(--font-sans); }
+  .menu-links { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 1em; }
+  .menu-links a { min-height: 4.5em; display: flex; align-items: center; justify-content: space-between; gap: 1em; border-bottom: 1px solid var(--border); color: #171717; font: 500 1em/1.5 var(--font-sans); }
   .menu-links a svg { flex: none; color: var(--muted-foreground); }
   .menu-links a { opacity: 0; transform: translateY(8px); transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out); }
   .menu-sheet[open] .menu-links a { opacity: 1; transform: translateY(0); transition-duration: 240ms; transition-delay: var(--menu-delay, 160ms); }
   @starting-style {
     .menu-sheet[open] .menu-links a { opacity: 0; transform: translateY(8px); }
   }
-  .menu-bottom { flex: none; display: grid; gap: 12px; padding: 24px 16px max(16px, env(safe-area-inset-bottom)); background: #fff; }
-  .menu-demo { display: flex; align-items: center; justify-content: center; min-height: 44px; border-radius: var(--radius-pill); background: #171717; color: #fafafa; font: 500 1em/1.5 var(--font-sans); }
+  .menu-bottom { flex: none; display: grid; gap: .75em; padding: 1.5em 1em max(1em, env(safe-area-inset-bottom)); background: #fff; }
+  .menu-demo { display: flex; align-items: center; justify-content: center; min-height: 2.75em; border-radius: var(--radius-pill); background: #171717; color: #fafafa; font: 500 1em/1.5 var(--font-sans); }
   .menu-login { background: #fff; color: #171717; border: 1px solid #e5e5e5; }
   :global(html:has(.menu-sheet[open])) { overflow: hidden; }
   :global(html.js .v4 .nav-end > .btn-sm) { display: inline-flex; }
