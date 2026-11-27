@@ -250,7 +250,10 @@ const structuredData = {
         <div class="v4-hero-wrap">
           <section class="v4-hero" aria-labelledby="hero-h">
             <div class="v4-hero-photo">
-              <img src="/photos/hero-director-2400.webp" srcset="/photos/hero-director-1280.webp 1280w, /photos/hero-director-2400.webp 2400w" sizes="100vw" width="2400" height="1340" fetchpriority="high" alt="A medical director at her desk, looking at clinic reports on her computer." />
+              <picture>
+                <source media="(max-width: 760px)" srcset="/photos/hero-director-mobile-828.webp 828w, /photos/hero-director-mobile-1116.webp 1116w" sizes="100vw" width="1116" height="2000" />
+                <img src="/photos/hero-director-2400.webp" srcset="/photos/hero-director-1280.webp 1280w, /photos/hero-director-2400.webp 2400w" sizes="100vw" width="2400" height="1340" fetchpriority="high" alt="A medical director at her desk, looking at clinic reports on her computer." />
+              </picture>
             </div>
             <div class="wrap v4-hero-content">
               <h1 id="hero-h"><Words text="The clinic operations suite for teams who can’t afford to lose a patient." /></h1>
@@ -1309,13 +1312,12 @@ const structuredData = {
   @container (max-width: 760px) {
     .v4-hero-wrap { padding-bottom: 0; }
     .v4 #who { padding-top: 2em; }
-    /* Phones: a shorter photo at the top shows both the computer and the doctor, then fades into the dark area behind the headline. */
-    .v4-hero { height: 100svh; min-height: 40em; background: linear-gradient(to bottom, #171717, #0a0a0a); }
+    /* Phones: a portrait photo (picture source) with the doctor and computer in the lower half, so the text sits in the open space at the top. */
+    .v4-hero { height: 100svh; min-height: 40em; }
     .v4-hero-photo { background: none; }
-    .v4-hero-photo img { top: 0; width: 100%; height: 100cqw; object-position: 55% center; -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent); mask-image: linear-gradient(to bottom, #000 60%, transparent); }
-    .v4-hero-photo::after { background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,0) 30%); }
-    .v4-hero .btn-primary { background: #fff; color: #171717; }
-    .v4-hero-content { padding-top: 7em; padding-bottom: 2em; }
+    .v4-hero-photo img { top: 0; width: 100%; height: 100%; object-position: center bottom; }
+    .v4-hero-photo::after { background: linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.25) 45%, rgba(0,0,0,0) 60%); }
+    .v4-hero-content { justify-content: flex-start; padding-top: 6em; padding-bottom: 2em; }
     .v4-hero h1 { font-size: 2.5em; line-height: 1.15; }
     .v4-hero p { font-size: 1em; line-height: 1.5; }
     .v4 .hc-card { height: auto; }
