@@ -1,6 +1,7 @@
 ---
 import Words from "./Words.astro";
 import MobileMenu from "./MobileMenu.astro";
+import DemoContent from "./DemoContent.astro";
 
 // Ported from "Copy v1" on the Ravefort MVP design canvas (Landing-Copy-v1), with the
 // Copy v1 motion spec: section reveals, hero load, person-card row, How it works (version B), FAQ.
@@ -10,14 +11,20 @@ import MobileMenu from "./MobileMenu.astro";
 // version D, picture left and steps right (Landing-HowItWorks-D).
 // Version 4 (Figma 258:9385 hero, 258:11101 step cards) is the homepage. Only the page passed
 // `indexed` is open to search; the rest point their canonical at / and carry noindex.
+// page="demo" renders the /demo request page: the same header and footer, with DemoContent as the body.
 interface Props {
   version?: 1 | 2 | 3 | 4;
   indexed?: boolean;
+  page?: "home" | "demo";
 }
-const { version = 1, indexed = false } = Astro.props;
-// ponytail: links still to confirm before launch: the demo booking link, the app's sign-in URL,
-// and Privacy/Terms pages.
-const DEMO_URL = "#demo";
+const { version = 1, indexed = false, page = "home" } = Astro.props;
+const isDemo = page === "demo";
+// On the demo page, in-page links (#product, #top) point back to the homepage.
+const to = (hash: string) => (isDemo ? (hash === "#top" ? "/" : `/${hash}`) : hash);
+// ponytail: links still to confirm before launch: the app's sign-in URL and Privacy/Terms pages.
+const DEMO_URL = "/demo";
+// Where the demo form posts, for example a Formspree URL. Empty opens an email with the details instead.
+const DEMO_FORM_ENDPOINT = "";
 const CONTACT_EMAIL = "hello@ravefort.com";
 const TALK_URL = `mailto:${CONTACT_EMAIL}`;
 // Empty hides the Sign in links until the app has a public address.
@@ -115,7 +122,7 @@ const navLinks = [
   ["#how", "How it works"],
   ["#who", "Who it’s for"],
   ["#questions", "FAQ"],
-];
+].map(([href, label]) => [to(href), label]);
 
 const pill = (p: Pill) => `background: var(--${p.c}-soft);`;
 const dot = (p: Pill) => `background: var(--${p.c});`;
@@ -133,9 +140,13 @@ const SITE = "https://ravefort.com";
 const CITIES = ["Lagos", "Abuja", "Port Harcourt"];
 // The brand, then what it is and who it's for. The description opens by naming the platform.
 // Titles cut off around 60 characters, snippets around 160; the cities live in the page.
-const title = "Ravefort - Clinic Operations Software";
-const description =
+const homeDescription =
   "Ravefort is the clinic operations platform for Nigeria. Run your appointments, patient records and recall in one place, so no patient is lost. Book a demo.";
+const title = isDemo ? "Book a demo - Ravefort Clinic Operations Software" : "Ravefort - Clinic Operations Software";
+const description = isDemo
+  ? "Book a demo of Ravefort. See how your front desk, recall team and owner would run appointments, patient records and recall, and get pricing for your clinic."
+  : homeDescription;
+const pageUrl = isDemo ? `${SITE}/demo` : `${SITE}/`;
 
 // What search engines and AI assistants read about the business and the product.
 const areaServed = [...CITIES.map((name) => ({ "@type": "City", name, containedInPlace: { "@type": "Country", name: "Nigeria" } })), { "@type": "Country", name: "Nigeria" }];
@@ -148,7 +159,7 @@ const structuredData = {
       name: "Ravefort",
       url: SITE,
       email: CONTACT_EMAIL,
-      description,
+      description: homeDescription,
       areaServed,
     },
     {
@@ -167,17 +178,17 @@ const structuredData = {
       applicationCategory: "BusinessApplication",
       applicationSubCategory: "Clinic management",
       keywords: "clinic software, clinic management software, patient management software, patient recall, appointment booking, WhatsApp patient messages, Lagos, Abuja, Port Harcourt, Nigeria",
-      potentialAction: { "@type": "ScheduleAction", name: "Book a demo", target: `mailto:${CONTACT_EMAIL}?subject=Ravefort%20demo` },
+      potentialAction: { "@type": "ScheduleAction", name: "Book a demo", target: `${SITE}/demo` },
       operatingSystem: "Web browser",
       areaServed,
       audience: { "@type": "BusinessAudience", audienceType: "Clinics in Lagos, Abuja, Port Harcourt and across Nigeria", geographicArea: areaServed },
       featureList: features.map((f) => `${f.title}: ${f.body}`),
       publisher: { "@id": `${SITE}/#organization` },
     },
-    {
+    ...(isDemo ? [] : [{
       "@type": "FAQPage",
       mainEntity: answeredFaq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-    },
+    }]),
   ],
 };
 ---
@@ -203,14 +214,14 @@ const structuredData = {
     <title>{title}</title>
     <meta name="description" content={description} />
     {!indexed && <meta name="robots" content="noindex" />}
-    <link rel="canonical" href={`${SITE}/`} />
-    <link rel="alternate" hreflang="en-NG" href={`${SITE}/`} />
-    <link rel="alternate" hreflang="x-default" href={`${SITE}/`} />
+    <link rel="canonical" href={pageUrl} />
+    <link rel="alternate" hreflang="en-NG" href={pageUrl} />
+    <link rel="alternate" hreflang="x-default" href={pageUrl} />
     <meta name="geo.region" content="NG" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Ravefort" />
     <meta property="og:locale" content="en_NG" />
-    <meta property="og:url" content={`${SITE}/`} />
+    <meta property="og:url" content={pageUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${SITE}/og.jpg`} />
@@ -229,10 +240,10 @@ const structuredData = {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
     {version === 4 && <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" />}
   </head>
-  <body class={`v${version}`}>
+  <body class={`v${version}${isDemo ? " page-demo" : ""}`}>
     <header class="nav" id="nav">
       <nav aria-label="Main" class="wrap nav-row">
-        <a href="#top" aria-label="Ravefort home" class="brand"><span class="logo" aria-hidden="true">R</span><span>Ravefort</span></a>
+        <a href={to("#top")} aria-label="Ravefort home" class="brand"><span class="logo" aria-hidden="true">R</span><span>Ravefort</span></a>
         <div class="nav-links">
           {navLinks.map(([href, label]) => <a href={href}>{label}</a>)}
         </div>
@@ -246,6 +257,10 @@ const structuredData = {
     </header>
 
     <main id="top">
+      {isDemo ? (
+        <DemoContent contactEmail={CONTACT_EMAIL} formEndpoint={DEMO_FORM_ENDPOINT} privacyUrl={PRIVACY_URL} />
+      ) : (
+      <>
       {version === 4 && (
         <div class="v4-hero-wrap">
           <section class="v4-hero" aria-labelledby="hero-h">
@@ -567,30 +582,32 @@ const structuredData = {
             <h2 id="cta-h" class="t-display" style="max-width: 21.1111em; text-wrap: balance; --wd: 150ms" data-words><Words text="You look after the patients." />{" "}<br /><span class="muted"><Words text="Ravefort brings more of them back." start={5} /></span></h2>
             <p class="lead" style="max-width: 28em; --d: 600ms" data-reveal>Your appointments, records and recall list work together, so fewer patients slip away and more of them come back through your door.</p>
             <div class="cta-btns" data-reveal style="--d: 660ms">
-              <a class="btn btn-primary" href={`mailto:${CONTACT_EMAIL}?subject=Ravefort%20demo`}>Book a demo</a>
+              <a class="btn btn-primary" href={DEMO_URL}>Book a demo</a>
               <a class="btn btn-outline" href={TALK_URL}>Talk to us</a>
             </div>
           </div>
         </div>
       </section>
+      </>
+      )}
     </main>
 
     <footer class="footer">
       <div class="wrap stack-48">
         <div class="foot-cols">
           <div class="foot-brand stack-12">
-            <a href="#top" class="brand" style="align-self: flex-start"><span class="logo" aria-hidden="true">R</span><span>Ravefort</span></a>
+            <a href={to("#top")} class="brand" style="align-self: flex-start"><span class="logo" aria-hidden="true">R</span><span>Ravefort</span></a>
             <p class="t-body-sm" style="max-width: 22.8571em; color: var(--primary)">Ravefort is clinic operations software for clinics in Nigeria. We bring your appointments, patient records and recall into one place, so your team works from the same records and fewer patients slip away.</p>          </div>
           <nav aria-labelledby="foot-product">
             <h2 id="foot-product" class="t-heading-sm">Product</h2>
-            <ul><li><a href="#product">Appointments</a></li><li><a href="#product">Patient records</a></li><li><a href="#product">Recall</a></li><li><a href="#product">Team access</a></li></ul>
+            <ul><li><a href={to("#product")}>Appointments</a></li><li><a href={to("#product")}>Patient records</a></li><li><a href={to("#product")}>Recall</a></li><li><a href={to("#product")}>Team access</a></li></ul>
           </nav>
           <nav aria-labelledby="foot-start">
             <h2 id="foot-start" class="t-heading-sm">Get started</h2>
             <ul>
               <li><a href={DEMO_URL}>Book a demo</a></li>
               {SIGN_IN_URL && <li><a href={SIGN_IN_URL}>Sign in</a></li>}
-              <li><a href="#questions">FAQ</a></li>
+              <li><a href={to("#questions")}>FAQ</a></li>
             </ul>
           </nav>
           {(PRIVACY_URL || TERMS_URL) && (
@@ -616,6 +633,8 @@ const structuredData = {
       // The glass fades independently of the bar as it crosses back over the hero.
       const nav = document.getElementById("nav")!;
       const hero = document.querySelector<HTMLElement>(".v4-hero");
+      // The demo page has no photo behind the header, so it keeps the solid header from the top.
+      const solid = document.body.classList.contains("page-demo");
       const tabbing = () => !!nav.querySelector(":focus-visible");
       let lastY = Math.max(0, scrollY);
       let travel = 0;
@@ -628,7 +647,7 @@ const structuredData = {
         const navHeight = nav.offsetHeight;
         // Keep the glass while hero copy passes behind the header; fade it near the top photo.
         const overHero = hero && y <= hero.offsetTop + navHeight;
-        nav.classList.toggle("is-scrolled", hero ? !overHero : y > 8);
+        nav.classList.toggle("is-scrolled", solid || (hero ? !overHero : y > 8));
         const menuOpen = !!nav.querySelector("dialog[open]");
         if (y <= navHeight || tabbing() || menuOpen || travel <= -8) nav.classList.remove("is-hidden");
         else if (travel >= 12) nav.classList.add("is-hidden");
@@ -688,27 +707,29 @@ const structuredData = {
 
       // Person cards: previous / next scroll by one card plus the gap, and switch off at either end.
       // On phones one card fills the row, and the dots mark which one is showing.
-      const row = document.getElementById("who-row")!;
-      const navBtns = document.querySelectorAll<HTMLButtonElement>(".pc-nav");
-      const dots = document.querySelectorAll<HTMLElement>(".pc-dot");
-      const cardStep = () => {
-        const card = row.querySelector<HTMLElement>(".pc")!;
-        return card.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap);
-      };
-      const updateEnds = () => {
-        const max = row.scrollWidth - row.clientWidth;
-        navBtns.forEach((b) => {
-          b.disabled = b.dataset.dir === "-1" ? row.scrollLeft <= 1 : row.scrollLeft >= max - 1;
-        });
-        const at = row.scrollLeft >= max - 1 ? dots.length - 1 : Math.round(row.scrollLeft / cardStep());
-        dots.forEach((d, i) => d.classList.toggle("is-on", i === at));
-      };
-      navBtns.forEach((b) =>
-        b.addEventListener("click", () => row.scrollBy({ left: Number(b.dataset.dir) * cardStep() })),
-      );
-      row.addEventListener("scroll", updateEnds, { passive: true });
-      addEventListener("resize", updateEnds);
-      updateEnds();
+      const row = document.getElementById("who-row");
+      if (row) {
+        const navBtns = document.querySelectorAll<HTMLButtonElement>(".pc-nav");
+        const dots = document.querySelectorAll<HTMLElement>(".pc-dot");
+        const cardStep = () => {
+          const card = row.querySelector<HTMLElement>(".pc")!;
+          return card.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap);
+        };
+        const updateEnds = () => {
+          const max = row.scrollWidth - row.clientWidth;
+          navBtns.forEach((b) => {
+            b.disabled = b.dataset.dir === "-1" ? row.scrollLeft <= 1 : row.scrollLeft >= max - 1;
+          });
+          const at = row.scrollLeft >= max - 1 ? dots.length - 1 : Math.round(row.scrollLeft / cardStep());
+          dots.forEach((d, i) => d.classList.toggle("is-on", i === at));
+        };
+        navBtns.forEach((b) =>
+          b.addEventListener("click", () => row.scrollBy({ left: Number(b.dataset.dir) * cardStep() })),
+        );
+        row.addEventListener("scroll", updateEnds, { passive: true });
+        addEventListener("resize", updateEnds);
+        updateEnds();
+      }
 
       // How it works (version B): picking a step opens its sentence and cross-fades the picture.
       const hb = document.getElementById("hb");
