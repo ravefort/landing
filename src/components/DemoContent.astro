@@ -1,0 +1,370 @@
+---
+// The /demo page body: a dark hero with what the demo covers beside a two-step request form,
+// then what happens on the demo. Header and footer come from Landing.astro (page="demo").
+interface Props {
+  contactEmail: string;
+  // Where the form posts (for example a Formspree URL). Empty sends the request by email instead.
+  formEndpoint?: string;
+  privacyUrl?: string;
+}
+const { contactEmail, formEndpoint = "", privacyUrl = "" } = Astro.props;
+
+const checks = [
+  "See who’s due back and how your team follows up on WhatsApp or by phone",
+  "Find out how your records come across from Excel or your old system",
+  "Get pricing for a clinic your size",
+];
+const steps = [
+  { title: "We learn how your clinic works", body: "Who books patients, who follows up, and where your records live today." },
+  { title: "We show you Ravefort, role by role", body: "What the owner, the front desk and the recall team each see, using examples like your own patients." },
+  { title: "We go through pricing and moving over", body: "What Ravefort costs for a clinic your size, and how your existing records come across." },
+];
+// Form choices. Plain lists so they're easy to change.
+const roles = ["Owner or medical director", "Clinic or practice manager", "Doctor or clinician", "Front desk or receptionist", "Other"];
+const clinicTypes = ["General practice or family clinic", "Dental", "Eye or optometry", "Physiotherapy", "Dermatology or aesthetics", "Fertility or women’s health", "Children’s clinic", "Diagnostic centre or lab", "Hospital", "Other"];
+const cities = ["Lagos", "Abuja", "Port Harcourt", "Ibadan", "Kano", "Elsewhere in Nigeria"];
+const branches = ["1", "2 to 3", "4 to 10", "More than 10"];
+const staff = ["1 to 5", "6 to 15", "16 to 50", "More than 50"];
+const patients = ["Fewer than 50", "50 to 150", "150 to 500", "More than 500"];
+const records = ["Paper files", "Excel or spreadsheets", "Another clinic system", "A mix of these"];
+const needs = ["Appointments and booking", "Patient records", "Recall and follow-ups", "WhatsApp messages to patients", "Moving records from our old system", "Staff roles and access", "Reports on returning patients"];
+const timelines = ["As soon as possible", "Within the next month", "In 1 to 3 months", "Just exploring for now"];
+const contactMethods = ["WhatsApp", "Phone call", "Email"];
+const contactTimes = ["Morning (9am to 12pm)", "Afternoon (12pm to 4pm)", "Evening (4pm to 7pm)"];
+const sources = ["Google search", "Instagram", "LinkedIn", "Facebook", "Another clinic told us", "Event or conference", "Other"];
+const checkPath = "M13.03 4.47a.75.75 0 0 1 0 1.06l-6 6a.75.75 0 0 1-1.06 0l-3-3a.75.75 0 1 1 1.06-1.06L6.5 9.94l5.47-5.47a.75.75 0 0 1 1.06 0";
+---
+
+<section class="demo-hero" aria-labelledby="demo-h">
+  <div class="wrap demo-grid">
+    <div class="demo-intro">
+      <span class="demo-kicker">Book a demo</span>
+      <h1 id="demo-h">See how Ravefort would work in your clinic</h1>
+      <div class="demo-ruled">
+        <p class="demo-sub">Tell us a little about your clinic. We’ll walk you through Ravefort the way your front desk, your recall team and you would use it, and answer your questions.</p>
+        <ul class="demo-checks">
+          {checks.map((c) => (
+            <li><svg class="demo-tick" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d={checkPath} /></svg>{c}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="demo-card" id="demo-card">
+      <form id="demo-form" novalidate data-endpoint={formEndpoint} data-email={contactEmail}>
+        <div class="demo-card-head">
+          <span class="logo demo-mark" aria-hidden="true">R</span>
+          <h2 class="demo-card-title">Book your free demo</h2>
+          <p class="demo-step-label" id="demo-step-label" aria-live="polite">Step 1 of 3</p>
+          <div class="demo-progress" aria-hidden="true"><span id="demo-progress-bar"></span></div>
+        </div>
+
+        <fieldset class="demo-step" data-step="1">
+          <legend class="sr-only">About you</legend>
+          <div class="field-row">
+            <label class="field"><span>First name</span><input name="first_name" autocomplete="given-name" required /></label>
+            <label class="field"><span>Last name</span><input name="last_name" autocomplete="family-name" required /></label>
+          </div>
+          <label class="field"><span>Your role</span>
+            <select name="role" required>
+              <option value="">Choose your role</option>
+              {roles.map((o) => <option>{o}</option>)}
+            </select>
+          </label>
+          <label class="field"><span>Work email</span><input name="email" type="email" autocomplete="email" required /></label>
+          <label class="field"><span>Phone or WhatsApp number</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="e.g. 0803 123 4567" required /></label>
+          <button type="button" class="btn btn-primary demo-submit" data-next>Next</button>
+        </fieldset>
+
+        <fieldset class="demo-step" data-step="2" hidden>
+          <legend class="sr-only">Your clinic</legend>
+          <label class="field"><span>Clinic name</span><input name="clinic" autocomplete="organization" required /></label>
+          <div class="field-row">
+            <label class="field"><span>Type of clinic</span>
+              <select name="clinic_type" required>
+                <option value="">Choose one</option>
+                {clinicTypes.map((o) => <option>{o}</option>)}
+              </select>
+            </label>
+            <label class="field"><span>City</span>
+              <select name="city" required>
+                <option value="">Choose a city</option>
+                {cities.map((o) => <option>{o}</option>)}
+              </select>
+            </label>
+          </div>
+          <div class="field-row">
+            <label class="field"><span>Number of branches</span>
+              <select name="branches" required>
+                <option value="">Choose one</option>
+                {branches.map((o) => <option>{o}</option>)}
+              </select>
+            </label>
+            <label class="field"><span>Number of staff</span>
+              <select name="staff" required>
+                <option value="">Choose a range</option>
+                {staff.map((o) => <option>{o}</option>)}
+              </select>
+            </label>
+          </div>
+          <label class="field"><span>Patients seen per week</span>
+            <select name="patients_per_week" required>
+              <option value="">Choose a range</option>
+              {patients.map((o) => <option>{o}</option>)}
+            </select>
+          </label>
+          <label class="field"><span>How do you keep patient records today?</span>
+            <select name="records" required>
+              <option value="">Choose one</option>
+              {records.map((o) => <option>{o}</option>)}
+            </select>
+          </label>
+          <label class="field"><span>Which software do you use now? <em>Optional</em></span><input name="current_software" placeholder="Leave blank if none" /></label>
+          <div class="demo-actions">
+            <button type="button" class="btn btn-outline" data-back>Back</button>
+            <button type="button" class="btn btn-primary demo-submit" data-next>Next</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="demo-step" data-step="3" hidden>
+          <legend class="sr-only">What you need</legend>
+          <fieldset class="field checks" data-min="1">
+            <legend><span>What would you like help with?</span> <em>Choose all that apply</em></legend>
+            <div class="check-grid">
+              {needs.map((o) => <label class="check"><input type="checkbox" name="needs" value={o} /><span>{o}</span></label>)}
+            </div>
+          </fieldset>
+          <label class="field"><span>When would you like to start?</span>
+            <select name="timeline" required>
+              <option value="">Choose one</option>
+              {timelines.map((o) => <option>{o}</option>)}
+            </select>
+          </label>
+          <div class="field-row">
+            <label class="field"><span>Best way to reach you</span>
+              <select name="contact_method" required>
+                <option value="">Choose one</option>
+                {contactMethods.map((o) => <option>{o}</option>)}
+              </select>
+            </label>
+            <label class="field"><span>Best time</span>
+              <select name="contact_time" required>
+                <option value="">Choose one</option>
+                {contactTimes.map((o) => <option>{o}</option>)}
+              </select>
+            </label>
+          </div>
+          <label class="field"><span>How did you hear about Ravefort? <em>Optional</em></span>
+            <select name="heard_from">
+              <option value="">Choose one</option>
+              {sources.map((o) => <option>{o}</option>)}
+            </select>
+          </label>
+          <label class="field"><span>Anything else we should know? <em>Optional</em></span><textarea name="message" rows="3" placeholder="For example, what’s not working today"></textarea></label>
+          <div class="demo-actions">
+            <button type="button" class="btn btn-outline" data-back>Back</button>
+            <button type="submit" class="btn btn-primary demo-submit">Request my demo</button>
+          </div>
+        </fieldset>
+
+        <p class="demo-note">We only use these details to arrange your demo.{privacyUrl && <> See our <a href={privacyUrl}>privacy policy</a>.</>}</p>
+      </form>
+
+      <div class="demo-done" id="demo-done" hidden tabindex="-1">
+        <h2 class="demo-card-title" id="demo-done-title">Thanks, we’ve got it</h2>
+        <p id="demo-done-text">We’ll be in touch to set a time for your demo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec demo-next" aria-labelledby="demo-next-h">
+  <div class="wrap stack-48">
+    <div class="stack-8">
+      <span class="kicker">What to expect</span>
+      <h2 id="demo-next-h" class="t-title">What happens on your demo</h2>
+    </div>
+    <ol class="demo-steps">
+      {steps.map((s, i) => (
+        <li>
+          <span class="demo-num" aria-hidden="true">{i + 1}</span>
+          <h3 class="t-heading-lg">{s.title}</h3>
+          <p class="body">{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section class="demo-faq" aria-labelledby="demo-faq-h">
+  <div class="wrap">
+    <div class="demo-faq-band">
+      <h2 id="demo-faq-h" class="demo-faq-title">Have questions before you book?</h2>
+      <p>Read the answers to what clinics usually ask about pricing, moving records, WhatsApp and who can see your patients’ information.</p>
+      <div class="demo-faq-btns">
+        <a class="btn btn-primary" href="/#questions">Read the FAQ</a>
+        <a class="btn btn-outline" href="/#how">See how it works</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .demo-hero { background: var(--secondary); color: var(--foreground); padding: 9.5em 0 5em; }
+  .demo-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 28em); gap: 4em; align-items: start; }
+  .demo-intro { padding-top: 1.5em; }
+  .demo-kicker { display: block; font-size: .875em; line-height: 1.4286; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-foreground); margin-bottom: 1.1429em; }
+  .demo-intro h1 { max-width: 12em; font: 400 clamp(2.5em, min(4.2vw, 6.5vh), 3.75em)/1.15 "Newsreader", Georgia, serif; letter-spacing: -.02em; text-wrap: balance; }
+  .demo-ruled { margin-top: 2em; padding-left: 1.5em; border-left: 1px solid var(--border-strong); max-width: 32em; }
+  .demo-sub { font-size: 1.25em; line-height: 1.5; color: var(--primary); text-wrap: pretty; }
+  .demo-checks { list-style: none; padding: 0; margin: 1.5em 0 0; display: flex; flex-direction: column; gap: .75em; }
+  .demo-checks li { display: flex; gap: .625em; align-items: flex-start; font-size: 1em; line-height: 1.5; color: var(--foreground); }
+  .demo-tick { flex: none; margin-top: .25em; color: var(--foreground); }
+
+  .demo-card { background: var(--card); color: var(--foreground); border: 1px solid var(--border); border-radius: var(--radius-frame); padding: 2em; box-shadow: 0 1em 2.5em var(--shadow-color); }
+  .demo-mark { margin-bottom: 1em; }
+  .demo-card-head { margin-bottom: 1.5em; }
+  .demo-card-title { font: 600 1.375em/1.3 var(--font-sans); letter-spacing: -.017em; }
+  .demo-step-label { margin-top: .5em; font-size: .875em; line-height: 1.4286; color: var(--muted-foreground); }
+  .demo-progress { margin-top: .75em; height: .375em; border-radius: var(--radius-pill); background: var(--secondary); overflow: hidden; }
+  .demo-progress span { display: block; height: 100%; width: 33.33%; border-radius: inherit; background: var(--primary); transition: width 300ms var(--ease-out); }
+  .demo-step { border: 0; margin: 0; padding: 0; min-width: 0; display: flex; flex-direction: column; gap: 1em; }
+  .demo-step[hidden], .demo-done[hidden], form[hidden] { display: none; }
+  .field { display: flex; flex-direction: column; gap: .375em; }
+  .field > span { font-size: .875em; line-height: 1.4286; font-weight: 500; }
+  .field em { font-style: normal; font-weight: 400; color: var(--muted-foreground); }
+  .field input:not([type=checkbox]), .field select, .field textarea {
+    font: inherit; font-size: 1em; color: var(--foreground); background: #fff; border: 1px solid var(--border-strong); border-radius: var(--radius-choice);
+    padding: .625em .75em; min-height: 2.75em; box-sizing: border-box; width: 100%;
+    transition: border-color 150ms var(--ease-in-out), box-shadow 150ms var(--ease-in-out);
+  }
+  .field textarea { resize: vertical; min-height: 5em; }
+  .field ::placeholder { color: #a3a3a3; }
+  .field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .75em; }
+  .checks { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .checks legend { padding: 0; margin-bottom: .5em; font-size: .875em; line-height: 1.4286; font-weight: 500; }
+  .checks legend em { font-style: normal; font-weight: 400; color: var(--muted-foreground); }
+  .check-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .5em; }
+  .check { display: flex; align-items: flex-start; gap: .5714em; padding: .5714em .7143em; border: 1px solid var(--border-strong); border-radius: var(--radius-choice); font-size: .875em; line-height: 1.4286; cursor: pointer; transition: border-color 150ms var(--ease-in-out), background-color 150ms var(--ease-in-out); }
+  .check input { margin: .1429em 0 0; accent-color: var(--primary); flex: none; }
+  .check:has(input:checked) { border-color: var(--primary); background: var(--secondary); }
+  .checks[aria-invalid="true"] .check { border-color: var(--destructive); }
+  .checks-error { margin-top: .5em; font-size: .875em; color: var(--destructive); }
+  .field input:not([type=checkbox]):focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 .1875em rgba(23,23,23,.12); }
+  .field input[aria-invalid="true"], .field select[aria-invalid="true"] { border-color: var(--destructive); }
+  .demo-submit { width: 100%; margin-top: .5em; }
+  .demo-actions { display: grid; grid-template-columns: auto 1fr; gap: .75em; margin-top: .5em; }
+  .demo-actions .demo-submit { margin-top: 0; }
+  .demo-note { margin-top: 1.1429em; font-size: .875em; line-height: 1.4286; color: var(--muted-foreground); }
+  .demo-note a { text-decoration: underline; }
+  .demo-done { outline: none; }
+  .demo-done p { margin-top: .75em; line-height: 1.5; color: var(--muted-foreground); }
+
+  .demo-steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2em; }
+  .demo-steps li { display: flex; flex-direction: column; gap: .5em; }
+  .demo-num { width: 2em; height: 2em; border-radius: var(--radius-pill); background: var(--primary); color: var(--primary-foreground); display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: .875em; margin-bottom: .5714em; }
+  .demo-faq { padding: 0 0 6em; }
+  .demo-faq-band { text-align: center; padding: 3.5em 2em; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; gap: 1em; }
+  .demo-faq-title { font: 400 2.25em/1.2 "Newsreader", Georgia, serif; letter-spacing: -.02em; }
+  .demo-faq-band p { max-width: 34em; color: var(--muted-foreground); line-height: 1.5; }
+  .demo-faq-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: .75em; margin-top: .5em; }
+
+  @container (max-width: 760px) {
+    .demo-hero { padding: 7em 0 3em; }
+    .demo-grid { grid-template-columns: minmax(0, 1fr); gap: 2.5em; }
+    .demo-intro { padding-top: 0; }
+    .demo-intro h1 { font-size: 2.5em; }
+    .demo-card { padding: 1.5em; }
+    .field-row, .check-grid { grid-template-columns: minmax(0, 1fr); }
+    .demo-steps { grid-template-columns: minmax(0, 1fr); gap: 1.5em; }
+    .demo-sub { font-size: 1.125em; }
+    .demo-faq-band { padding: 2.5em 0; }
+    .demo-faq-title { font-size: 1.875em; }
+  }
+</style>
+
+<script>
+  const form = document.getElementById("demo-form") as HTMLFormElement | null;
+  if (form) {
+    const steps = [...form.querySelectorAll<HTMLFieldSetElement>(".demo-step")];
+    const total = steps.length;
+    const label = document.getElementById("demo-step-label")!;
+    const bar = document.getElementById("demo-progress-bar")!;
+    const done = document.getElementById("demo-done")!;
+    const doneTitle = document.getElementById("demo-done-title")!;
+    const doneText = document.getElementById("demo-done-text")!;
+    let current = 1;
+
+    const show = (n: number) => {
+      current = n;
+      steps.forEach((s, i) => (s.hidden = i !== n - 1));
+      label.textContent = `Step ${n} of ${total}`;
+      bar.style.width = `${(n / total) * 100}%`;
+      document.getElementById("demo-card")!.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      steps[n - 1].querySelector<HTMLElement>("input:not([type=checkbox]), select")?.focus({ preventScroll: true });
+    };
+    // Checks one step's fields, marks the invalid ones and shows the browser's message on the first.
+    // A group of checkboxes with data-min needs at least that many ticked.
+    const valid = (step: HTMLFieldSetElement) => {
+      const fields = [...step.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>("input:not([type=checkbox]), select, textarea")];
+      fields.forEach((f) => f.setAttribute("aria-invalid", String(!f.checkValidity())));
+      const bad = fields.find((f) => !f.checkValidity());
+      let groupsOk = true;
+      step.querySelectorAll<HTMLFieldSetElement>(".checks[data-min]").forEach((g) => {
+        const ok = g.querySelectorAll("input:checked").length >= Number(g.dataset.min);
+        g.setAttribute("aria-invalid", String(!ok));
+        g.querySelector(".checks-error")?.remove();
+        if (!ok) {
+          groupsOk = false;
+          g.insertAdjacentHTML("beforeend", '<p class="checks-error" role="alert">Choose at least one.</p>');
+        }
+      });
+      if (bad) bad.reportValidity();
+      else if (!groupsOk) step.querySelector<HTMLElement>(".checks[aria-invalid=true] input")?.focus();
+      return !bad && groupsOk;
+    };
+    form.addEventListener("input", (e) => {
+      const el = e.target as HTMLElement;
+      el.removeAttribute("aria-invalid");
+      const group = el.closest(".checks");
+      if (group) { group.removeAttribute("aria-invalid"); group.querySelector(".checks-error")?.remove(); }
+    });
+    form.querySelectorAll("[data-next]").forEach((b) => b.addEventListener("click", () => { if (valid(steps[current - 1])) show(current + 1); }));
+    form.querySelectorAll("[data-back]").forEach((b) => b.addEventListener("click", () => show(current - 1)));
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!valid(steps[total - 1])) return;
+      const data = new FormData(form);
+      const endpoint = form.dataset.endpoint;
+      if (endpoint) {
+        const res = await fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } }).catch(() => null);
+        if (!res?.ok) {
+          doneTitle.textContent = "We couldn’t send your request";
+          doneText.textContent = `Something went wrong sending your request. Please email us at ${form.dataset.email} instead.`;
+        }
+      } else {
+        // No form service yet: open an email with the details filled in, one line per question.
+        const names: Record<string, string> = {};
+        form.querySelectorAll<HTMLElement>(".field, .checks").forEach((f) => {
+          const input = f.querySelector<HTMLInputElement>("input, select, textarea");
+          const text = f.querySelector("span")?.textContent?.replace(/Optional|Choose all that apply/g, "").trim();
+          if (input && text) names[input.name] = text;
+        });
+        const lines: string[] = [];
+        for (const key of new Set(data.keys())) {
+          const value = data.getAll(key).map(String).filter((v) => v.trim()).join(", ");
+          const q = names[key] ?? key;
+          if (value) lines.push(q.endsWith("?") ? `${q} ${value}` : `${q}: ${value}`);
+        }
+        location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(`Ravefort demo request: ${data.get("clinic")}`)}&body=${encodeURIComponent(lines.join("\n"))}`;
+        doneText.textContent = "Your email app should open with your details filled in. Send it and we’ll get back to you to set a time.";
+      }
+      form.hidden = true;
+      done.hidden = false;
+      done.focus();
+    });
+  }
+</script>
