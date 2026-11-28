@@ -1317,11 +1317,11 @@ const structuredData = {
     .v4 .nav.is-hidden { transform: none; }
     .v4 .nav::before { transition-duration: 100ms; }
   }
-  /* The hero sits inset from the window edges as a rounded frame (16px corners), with a thin page-coloured border around it. */
-  .v4-hero-wrap { padding: .75em .75em 4em; }
+  /* The hero sits inset from the window edges as a rounded frame (16px corners), with a thin page-coloured border (8px) around it. */
+  .v4-hero-wrap { padding: .5em .5em 4em; }
   /* Until the photo paints, the frame shows the photo's own average colour (dimmed like the photo)
      rather than a blue that flashed on every reload. */
-  .v4-hero { position: relative; height: calc(100svh - 1.5em); min-height: 40em; overflow: hidden; border-radius: 1em; background: #857562; }
+  .v4-hero { position: relative; height: calc(100svh - 1em); min-height: 40em; overflow: hidden; border-radius: 1em; background: #857562; }
   .v4-hero-photo { position: absolute; inset: 0; background: linear-gradient(to top, rgba(39,32,56,.7) 14.795%, transparent 72.938%); }
   .v4-hero-photo img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 80% center; }
   .v4-hero-photo::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.2); }
@@ -1345,7 +1345,6 @@ const structuredData = {
     .v4-hero-wrap { padding: .5em .5em 0; }
     .v4 #who { padding-top: 2em; }
     /* Phones: a portrait photo (picture source), zoomed in from the bottom edge so the ceiling is cropped and the doctor and computer sit above the text. */
-    .v4-hero { height: calc(100svh - 1em); min-height: 40em; }
     .v4-hero-photo { background: none; }
     .v4-hero-photo img { top: -50.8%; width: 100%; height: 153.8%; object-position: 62% center; }
     .v4-hero-photo::after { background: linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,.35) 40%, rgba(0,0,0,0) 62%); }
